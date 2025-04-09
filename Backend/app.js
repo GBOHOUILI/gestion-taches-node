@@ -1,7 +1,8 @@
 
 const express = require("express");
 const cookieParser = require('cookie-parser');
-
+const authRoutes = require('./routes/userRoutes');
+ const essaiRoutes = require('./routes/essaiRoutes');
 // const userRoutes = require('./routes/user.routes');
 require('dotenv').config({ path: './config/.env'});
 require('./config/db');
@@ -15,8 +16,13 @@ app.use(cors());
 app.get("/",(req,res)=> {
     res.send("Hello world")
 })
-//routes
 
+//routes
+app.use('/api/users', essaiRoutes);
+app.use('/api/auth', authRoutes);
+app.get('/api/auth',(req,res)=> {
+    res.send("Hello world")
+})
 
 
 //server
