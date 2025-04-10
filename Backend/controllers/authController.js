@@ -1,5 +1,7 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
 
 const createTokenAndSetCookie = (res, payload) => {
   const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '1d' });
@@ -14,34 +16,43 @@ const createTokenAndSetCookie = (res, payload) => {
 
 
 const signUp = async (req, res) => {
-  const { nom, prenoms, email, password } = req.body;
+  const { nom, prenoms, email, password, role } = req.body;
 
   const existing = await User.findOne({ email });
-  if (existing) {
-    return res.status(400).json({ error: 'Email déjà utilisé.' });
-  }
+  if (existing) return res.status(400).json({ message: "Email déjà utilisé." });
 
-  const user = new User({ nom, prenoms, email, password});
-  await user.save();
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-  res.status(201).json({
-    message: 'Inscription réussie.',
-    user: { id: user._id, nom: user.nom, prenoms: user.prenoms, email: user.email, role: user.role }
+  const newUser = await User.create({
+    nom,
+    prenoms,
+    email,
+    password: hashedPassword,
+    role 
   });
+
+  res.status(201).json({ message: "Compte créé, en attente de validation par un administrateur." });
 };
+
 
 const signIn = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
   if (!user) {
-    return res.status(400).json({ error: 'Email ou mot de passe incorrect.' });
+    return res.status(400).json({ error: 'Email ou mot de passe incorrects.' });
   }
 
-  const isMatch = await user.comparePassword(password);
+ 
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     return res.status(400).json({ error: 'Email ou mot de passe incorrect.' });
   }
+  
+  if (!user.isActive) {
+    return res.status(403).json({ error: 'Votre compte est en attente de validation par un administrateur.' });
+  }
+
 
   createTokenAndSetCookie(res, { userId: user._id, role: user.role });
 
@@ -50,6 +61,7 @@ const signIn = async (req, res) => {
     user: { id: user._id, nom: user.nom, prenoms: user.prenoms, email: user.email, role: user.role }
   });
 };
+
 
 const logout = (req, res) => {
   res.clearCookie('token', {

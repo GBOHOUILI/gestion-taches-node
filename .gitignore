@@ -1,5 +1,3 @@
-/config/.env
-/node_modules/
-/To do/
-package.json
-pnpm-lock.yaml
+/Backend/config/.env
+/Backend/node_modules/
+/Backend/To do/

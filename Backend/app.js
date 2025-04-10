@@ -19,11 +19,12 @@ app.get("/",(req,res)=> {
 })
 
 //routes
+const adminRoutes = require('./routes/adminRoute');
+app.use('/api/admin', adminRoutes);
+
+
 app.use('/api/users', essaiRoutes);
 app.use('/api/auth', authRoutes);
-app.get('/api/auth', (req, res) => {
-  res.send("Hello world")
-});
 app.use('/api/projects', projectRoutes);
 
 

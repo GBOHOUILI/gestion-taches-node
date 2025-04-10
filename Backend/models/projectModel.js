@@ -18,7 +18,7 @@ const projectSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    createdAt: {
+    createdAt: { 
         type: Date,
         default: Date.now
     },
