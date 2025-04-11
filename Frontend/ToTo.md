@@ -2,7 +2,7 @@
 
 ## 🎯 Technologies utilisées
 - **HTML5** – Structure du site
-- **CSS3** (ou **Tailwind CSS** pour plus de rapidité)
+- **Tailwind CSS** 
 - **JavaScript Vanilla** – Interaction avec le backend (API Node.js)
 - **Fetch API** – Requêtes HTTP
 - **LocalStorage** – Stockage du JWT
@@ -111,7 +111,7 @@
 
 ## ✅ Expérience Utilisateur (UX)
 - Transitions en CSS (`transition: all 0.3s`)
-- Feedback visuel : couleurs, messages de confirmation/erreur
+- Feedback visuel : couleurs, messages de confirma tion/erreur
 - Scroll doux vers le haut (`window.scrollTo`)
 - Accessibilité : navigation clavier + couleurs contrastées
 

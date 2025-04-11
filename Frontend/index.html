@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Gestion des Tâches - Connexion</title>
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Section gauche avec image -->
+    <div class="hidden md:flex w-1/2 bg-blue-900 items-center justify-center">
+      <img src="./assets/images/gif3.gif" alt="" class="responsive-image">
+    </div>
+    <!-- Section droite avec formulaire -->
+    <div class="w-full md:w-1/2 flex items-center justify-center">
+      <form id="loginForm" class="bg-white p-8 rounded shadow-md w-96">
+        <h2 class="text-2xl font-bold mb-6 text-center">Connexion</h2>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium">Email</label>
+          <input type="email" id="email" class="w-full border rounded p-2" required>
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium">Mot de passe</label>
+          <input type="password" id="password" class="w-full border rounded p-2" required>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Se connecter</button>
+      </form>
+    </div>
+  </div>
+  <script src="script/form.js"></script>
+</body>
+</html>

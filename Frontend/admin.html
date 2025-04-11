@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Admin Dashboard</title>
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-900 text-white flex flex-col">
+     <div class="p-4 text-center font-bold text-xl border-b border-blue-700 flex items-center justify-between">
+  <span id="adminName" class="flex-1 text-left">John Doe</span>
+  <img src="./assets/icons/icon1.png" alt="Admin Icon" class="w-12 h-12 rounded-full">
+     </div>
+      <nav class="flex-1 p-4">
+        <ul class="space-y-4">
+          <li><a href="admin.html" class="block px-4 py-2 rounded hover:bg-blue-700">Gestion des Utilisateurs</a></li>
+          <li><a href="settings_admin.html" class="block px-4 py-2 rounded hover:bg-blue-700">Paramètres</a></li>
+          <li><a href="index.html" class="block px-4 py-2 rounded hover:bg-blue-700">Déconnexion</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="flex-1 p-8">
+      <h1 class="text-3xl font-bold mb-6">Gestion des Utilisateurs</h1>
+
+      <!-- Utilisateurs en attente de validation -->
+      <div class="mb-6">
+        <h2 class="text-xl font-bold mb-4">Utilisateurs en attente de validation</h2>
+        <div class="bg-white rounded shadow overflow-hidden">
+          <table class="w-full">
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="p-4 text-left">Nom</th>
+                <th class="p-4 text-left">Email</th>
+                <th class="p-4 text-left">Rôle</th>
+                <th class="p-4 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pendingUsersTableBody">
+              <!-- Les utilisateurs en attente seront injectés ici -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bouton pour créer un utilisateur -->
+      <div class="mb-6">
+        <button id="createUserBtn" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">
+          + Créer un utilisateur
+        </button>
+      </div>
+
+      <!-- Tableau des utilisateurs -->
+      <div class="bg-white rounded shadow overflow-hidden">
+        <table class="w-full">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-4 text-left">Nom</th>
+              <th class="p-4 text-left">Email</th>
+              <th class="p-4 text-left">Rôle</th>
+              <th class="p-4 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody">
+            <!-- Les utilisateurs validés seront injectés ici -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modale pour créer ou modifier un utilisateur -->
+  <div id="userModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow-md w-96">
+      <h2 id="modalTitle" class="text-xl font-bold mb-4">Créer un utilisateur</h2>
+      <form id="userForm">
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium">Nom</label>
+          <input type="text" id="name" class="w-full border rounded p-2" required>
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium">Email</label>
+          <input type="email" id="email" class="w-full border rounded p-2" required>
+        </div>
+        <div class="mb-4">
+          <label for="role" class="block text-sm font-medium">Rôle</label>
+          <select id="role" class="w-full border rounded p-2" required>
+            <option value="responsable">Responsable</option>
+            <option value="membre">Membre</option>
+          </select>
+        </div>
+        <div class="flex justify-end space-x-4">
+          <button type="button" id="cancelBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+            Annuler
+          </button>
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Enregistrer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script/admin.js"></script>
+</body>
+</html>

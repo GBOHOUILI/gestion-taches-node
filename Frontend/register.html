@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Inscription</title>
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen items-center justify-center">
+    <form id="registerForm" class="bg-white p-8 rounded shadow-md w-96">
+      <h2 class="text-2xl font-bold mb-6 text-center">Inscription</h2>
+      <div class="mb-4">
+        <label for="nom" class="block text-sm font-medium">Nom</label>
+        <input type="text" id="nom" class="w-full border rounded p-2" required>
+      </div>
+      <div class="mb-4">
+        <label for="prenom" class="block text-sm font-medium">Prénom</label>
+        <input type="text" id="prenom" class="w-full border rounded p-2" required>
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium">Email</label>
+        <input type="email" id="email" class="w-full border rounded p-2" required>
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium">Mot de passe</label>
+        <input type="password" id="password" class="w-full border rounded p-2" required>
+      </div>
+      <div class="mb-4">
+        <label for="role" class="block text-sm font-medium">Rôle</label>
+        <select id="role" class="w-full border rounded p-2" required>
+          <option value="membre">Membre</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">S'inscrire</button>
+    </form>
+  </div>
+  <script src="script/register.js"></script>
+</body>
+</html>

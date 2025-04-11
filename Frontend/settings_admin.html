@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <title>Paramètres Admin</title>
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-900 text-white flex flex-col">
+      <div class="p-4 text-center font-bold text-xl border-b border-blue-700 flex items-center justify-between">
+        <span id="adminName" class="flex-1 text-left">John Doe</span>
+        <img src="./assets/icons/icon1.png" alt="Admin Icon" class="w-12 h-12 rounded-full">
+      </div>
+      <nav class="flex-1 p-4">
+        <ul class="space-y-4">
+          <li><a href="admin.html" class="block px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-users"></i> Gestion des Utilisateurs</a></li>
+          <li><a href="settings_admin.html" class="block px-4 py-2 rounded bg-blue-700"><i class="fas fa-cogs"></i> Paramètres</a></li>
+          <li><a href="index.html" class="block px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="flex-1 p-8">
+      <h1 class="text-3xl font-bold mb-6 flex items-center">
+        <i class="fas fa-cogs text-blue-600 mr-4"></i> Paramètres
+      </h1>
+
+      <!-- Section Informations personnelles -->
+<section class="mb-8 w-full">
+  <h2 class="text-xl font-bold mb-4 flex items-center">
+    <i class="fas fa-user text-blue-600 mr-2"></i> Informations personnelles
+  </h2>
+  <form id="personalInfoForm" class="bg-white p-6 rounded shadow-md w-full">
+    <div class="mb-4">
+      <label for="adminName" class="block text-sm font-medium">Nom</label>
+      <input type="text" id="adminNameInput" class="w-full border rounded p-2" value="John Doe" required>
+    </div>
+    <div class="mb-4">
+      <label for="adminEmail" class="block text-sm font-medium">Email</label>
+      <input type="email" id="adminEmailInput" class="w-full border rounded p-2" value="admin@example.com" required>
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      <i class="fas fa-save"></i> Enregistrer
+    </button>
+  </form>
+</section>
+
+<!-- Section Modifier le mot de passe -->
+<section class="mb-8 w-full">
+  <h2 class="text-xl font-bold mb-4 flex items-center">
+    <i class="fas fa-lock text-blue-600 mr-2"></i> Modifier le mot de passe
+  </h2>
+  <form id="passwordForm" class="bg-white p-6 rounded shadow-md w-full">
+    <div class="mb-4">
+      <label for="currentPassword" class="block text-sm font-medium">Mot de passe actuel</label>
+      <input type="password" id="currentPassword" class="w-full border rounded p-2" required>
+    </div>
+    <div class="mb-4">
+      <label for="newPassword" class="block text-sm font-medium">Nouveau mot de passe</label>
+      <input type="password" id="newPassword" class="w-full border rounded p-2" required>
+    </div>
+    <div class="mb-4">
+      <label for="confirmPassword" class="block text-sm font-medium">Confirmer le nouveau mot de passe</label>
+      <input type="password" id="confirmPassword" class="w-full border rounded p-2" required>
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      <i class="fas fa-key"></i> Modifier
+    </button>
+  </form>
+</section>
+
+<!-- Section Préférences -->
+<section class="w-full">
+  <h2 class="text-xl font-bold mb-4 flex items-center">
+    <i class="fas fa-sliders-h text-blue-600 mr-2"></i> Préférences
+  </h2>
+  <form id="preferencesForm" class="bg-white p-6 rounded shadow-md w-full">
+    <div class="mb-4">
+      <label for="notifications" class="block text-sm font-medium">Notifications</label>
+      <select id="notifications" class="w-full border rounded p-2">
+        <option value="enabled" selected>Activées</option>
+        <option value="disabled">Désactivées</option>
+      </select>
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      <i class="fas fa-save"></i> Enregistrer
+    </button>
+  </form>
+</section>
+
+
+    </main>
+  </div>
+
+  <script src="script/settings.js"></script>
+</body>
+</html>
