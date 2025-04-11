@@ -22,11 +22,17 @@ const adminRoutes = require('./routes/adminRoute');
 app.use('/api/admin', adminRoutes);
 
 const projectRoutes = require('./routes/projectRoutes');
-app.use('/api/responsable', projectRoutes);
+app.use('/api/responsable/projet', projectRoutes);
+
+const taskRoutes = require('./routes/taskRoutes');
+app.use('/api/responsable/task', taskRoutes);
+app.get('/api/responsable/task',(req,res)=> {
+  res.send("bienvenue sur la route des taches")
+})
 
 app.use('/api/users', essaiRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/projects', projectRoutes);
+
 
 
 //server

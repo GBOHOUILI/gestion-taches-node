@@ -78,7 +78,7 @@ const deleteProject = async (req, res) => {
       return res.status(404).json({ message: 'Projet non trouvé' });
     }
 
-    await project.remove();
+    await project.deleteOne();
     res.status(200).json({ message: 'Projet supprimé avec succès' });
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la suppression du projet', error: error.message });
