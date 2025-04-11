@@ -1,23 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const projectController = require('../controllers/projectController');
+const authMiddleware = require('../middlewares/authMiddleware');
+const roleMiddleware = require('../middlewares/roleMiddleware');
 
-const { createProject, getProjects, updateProject, deleteProject } = require('../controllers/projectController');
-const auth = require('../middlewares/authMiddleware');
-const verifyRole = require('../middlewares/roleMiddleware');
-
-// Route pour créer un projet (accessible uniquement aux responsable)
-
-router.post('/', auth, verifyRole('responsable'), createProject);
-
-//liste des projets
-
-router.get('/', auth, verifyRole('responsable'), getProjects);
-
-//Modifier un projet
-router.put('/:id', auth, verifyRole('responsable'), updateProject);
-
-//supprimer un projet
-
-router.delete('/:id', auth, verifyRole('responsable'), deleteProject);
+// Routes protégées par l'authentification et le rôle (responsable uniquement pour certaines actions)
+router.post('/', authMiddleware, roleMiddleware('responsable'), projectController.createProject);
+router.get('/', authMiddleware, projectController.getProjects);
+router.get('/:id', authMiddleware, projectController.getProjectById);
+router.put('/:id', authMiddleware, roleMiddleware('responsable'), projectController.updateProject);
+router.delete('/:id', authMiddleware, roleMiddleware('responsable'), projectController.deleteProject);
 
 module.exports = router;
