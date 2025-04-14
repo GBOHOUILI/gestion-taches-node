@@ -4,23 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <title>Admin Dashboard</title>
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
     <!-- Sidebar -->
     <aside class="w-64 bg-blue-900 text-white flex flex-col">
-     <div class="p-4 text-center font-bold text-xl border-b border-blue-700 flex items-center justify-between">
-  <span id="adminName" class="flex-1 text-left">John Doe</span>
-  <img src="./assets/icons/icon1.png" alt="Admin Icon" class="w-12 h-12 rounded-full">
-     </div>
+      <div class="p-4 text-center font-bold text-xl border-b border-blue-700 flex items-center justify-between">
+        <span id="adminName" class="flex-1 text-left">John Doe</span>
+        <img src="./assets/icons/icon1.png" alt="Admin Icon" class="w-12 h-12 rounded-full">
+      </div>
       <nav class="flex-1 p-4">
         <ul class="space-y-4">
-          <li><a href="admin.html" class="block px-4 py-2 rounded hover:bg-blue-700">Gestion des Utilisateurs</a></li>
-          <li><a href="settings_admin.html" class="block px-4 py-2 rounded hover:bg-blue-700">Paramètres</a></li>
-          <li><a href="index.html" class="block px-4 py-2 rounded hover:bg-blue-700">Déconnexion</a></li>
+            <li><a href="admin.html" class="block px-4 py-2 rounded bg-blue-700 "><i class="fas fa-users"></i> Gestion des Utilisateurs</a></li>
+          <li><a href="settings_admin.html" class="block px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-cogs"></i> Paramètres</a></li>
+          <li><a href="index.html" class="block px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
         </ul>
       </nav>
     </aside>

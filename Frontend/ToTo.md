@@ -13,7 +13,7 @@
 ## 🎨 Design & Charte Graphique
 
 ### 🎨 Couleurs principales :
-- **Bleu foncé** : `#1e3a8a` – En-têtes, navbar, boutons principaux
+- **Bleu foncé**#1E3A8AFF : `` – En-têtes, navbar, boutons principaux
 - **Bleu clair** : `#60a5fa` – Hover et éléments actifs
 - **Gris clair** : `#f3f4f6` – Fond de page
 - **Blanc** : `#ffffff` – Cartes, modales
