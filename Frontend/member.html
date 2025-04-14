@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Membre</title>
+    <link rel="stylesheet" href="style.css" />      
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-900 text-white flex flex-col">
+      <div class="p-4 text-center font-bold text-xl border-b border-blue-700 flex items-center justify-between">
+        <span class="flex-1 text-left">Iziath</span>
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" alt="Avatar" />
+      </div>
+      <nav class="flex-1 p-4">
+        <ul class="space-y-4">
+          <li><a href="member.html" class="block px-4 py-2 rounded hover:bg-blue-700">Dashboard</a></li>
+          <li><a href="projets.html" class="block px-4 py-2 rounded hover:bg-blue-700">Mes Projets</a></li>
+          <li><a href="tasks.html" class="block px-4 py-2 rounded hover:bg-blue-700">Mes Tâches</a></li>
+          <li><a href="notifications.html" class="block px-4 py-2 rounded hover:bg-blue-700">Notifications</a></li>
+          <li><a href="profil.html" class="block px-4 py-2 rounded hover:bg-blue-700">Profil</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <!-- Main content -->
+<main class="flex-1 p-8 overflow-y-auto">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Bienvenue, Iziath 👋</h1>
+  </div>
+
+  <!-- Tâches assignées -->
+  <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+    <div class="bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-semibold mb-2">Tâches assignées</h2>
+      <ul class="list-disc list-inside text-sm text-gray-600">
+        <li>Préparer le rapport pour le projet Z</li>
+        <li>Réviser les spécifications techniques</li>
+        <li>Participer à la réunion d'équipe</li>
+      </ul>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-semibold mb-2 text-red-600">En retard ⚠️</h2>
+      <ul class="list-disc list-inside text-sm text-gray-600">
+        <li>Rapport Simplon (2j de retard)</li>
+      </ul>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-semibold mb-2">Progression</h2>
+      <div class="w-full bg-gray-200 rounded-full h-4">
+        <div class="bg-blue-700 h-4 rounded-full" style="width: 60%"></div>
+      </div>
+      <p class="text-sm text-gray-500 mt-1">60% des tâches complétées</p>
+    </div>
+  </section>
+
+  <!-- Activité récente -->
+  <section class="bg-white p-4 rounded shadow">
+    <h2 class="text-xl font-semibold mb-4">Activité récente</h2>
+    <ul class="text-sm text-gray-600 space-y-2">
+      <li>✔️ Tâche "Créer logo" complétée</li>
+      <li>🕒 Nouvelle tâche assignée : "Réunion d'équipe"</li>
+      <li>📌 Projet "Refonte site web" mis à jour</li>
+    </ul>
+  </section>
+</main>
+  </div>
+
+  <!-- Modal -->
+  <div id="taskModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded shadow-md w-96">
+      <h2 class="text-xl font-bold mb-4">Nouvelle tâche</h2>
+      <input type="text" placeholder="Nom de la tâche" class="w-full border border-gray-300 p-2 rounded mb-3">
+      <textarea placeholder="Détails..." class="w-full border border-gray-300 p-2 rounded mb-3"></textarea>
+      <div class="flex justify-end gap-2">
+        <button id="closeModal" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Annuler</button>
+        <button class="px-4 py-2 rounded bg-blue-700 text-white hover:bg-blue-800">Créer</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("taskModal");
+    const openBtn = document.getElementById("openModal");
+    const closeBtn = document.getElementById("closeModal");
+
+    openBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+    closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+  </script>
+</body>
+</html>

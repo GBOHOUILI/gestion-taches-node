@@ -1,63 +1,34 @@
 body {
   font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  /* display: flex; */
+  height: 100vh;
+  overflow: hidden; /* Empêche le défilement global */
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
+
+main {
+  /* margin-left: 16rem;  */
+  overflow-y: auto; /* Permet de scroller uniquement le contenu principal */
+  padding: 2rem;
+  width: calc(100% - 16rem); /* Ajuste la largeur en fonction de la sidebar */
+  height: 100vh; /* Prend toute la hauteur de l'écran */
 }
 
-table th, table td {
-  text-align: left;
-  padding: 8px;
-}
-
-table th {
-  background-color: #f3f4f6;
-}
-
-button {
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-img {
-  max-width: 70%; /* Réduit la taille maximale de l'image */
-  height: auto; /* Maintient les proportions */
-}
-
-@media (max-width: 768px) {
-  img {
-    max-width: 50%; /* Réduit encore plus la taille sur les petits écrans */
-  }
-}
-
-@media (max-width: 768px) {
-  .flex {
-    flex-direction: column; /* Empile les sections verticalement */
-  }
-
-  .hidden {
-    display: none; /* Cache l'image sur les petits écrans */
-  }
-
-  .w-full {
-    width: 100%; /* Assure que le formulaire prend toute la largeur */
-  }
-
-  .h-screen {
-    height: auto; /* Ajuste la hauteur pour éviter les débordements */
-  }
+main h1 {
+  font-size: 2rem;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
 }
 
 form {
-  max-width: 100%;
   width: 100%;
-  margin: auto;
-  margin-bottom: 20px;
+  max-width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 form input, form select {
@@ -68,6 +39,8 @@ form input, form select {
   margin-bottom: 15px;
 }
 
+
+/* Boutons */
 form button {
   background-color: #2563eb;
   color: white;
@@ -75,96 +48,25 @@ form button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  display: flex;
+  /* display: flex; */
   align-items: center;
-    justify-content: center;
+  justify-content: center;
 }
 
 form button:hover {
   background-color: #1d4ed8;
 }
+
+
 form button i {
   margin-right: 8px;
 }
 
-
-
-/* Sidebar */
-
-aside {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  height: 100%; 
-  width: 16rem; 
-  background-color: #1e3a8a;
-  color: white;
-  overflow-y: auto; 
-  z-index: 10; 
-}
-/* Icône de l'admin */
 img {
-  max-width: 100%; /* Assure que l'image ne dépasse pas son conteneur */
+  max-width: 85%; /* Augmente légèrement la taille maximale de l'image */
   height: auto; /* Maintient les proportions */
 }
 
-#adminName + img {
-  width: 48px; /* Augmente la taille de l'icône */
-  height: 48px;
-  margin-left: 8px; /* Ajoute un espace entre le nom et l'icône */
-}
-/* Icône de l'admin */
-img {
-  max-width: 100%; /* Assure que l'image ne dépasse pas son conteneur */
-  height: auto; /* Maintient les proportions */
-}
-
-#adminName + img {
-  width: 48px; /* Augmente la taille de l'icône */
-  height: 48px;
-  margin-left: 8px; /* Ajoute un espace entre le nom et l'icône */
-}
-/* Tableau */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-table th, table td {
-  padding: 12px;
-  text-align: left;
-}
-
-table th {
-  background-color: #f3f4f6;
-}
-
-table tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-
-/* Modale */
-#userModal {
-  z-index: 50;
-}
-
-/* Icône de l'admin */
-img {
-  max-width: 100%; /* Assure que l'image ne dépasse pas son conteneur */
-  height: auto; /* Maintient les proportions */
-}
-
-#adminName + img {
-  width: 48px; /* Augmente la taille de l'icône */
-  height: 48px;
-  margin-left: 8px; /* Ajoute un espace entre le nom et l'icône */
-}
-
-main {
-  margin-left: 16rem; /* Laisse de l'espace pour la sidebar */
-  overflow-y: auto; /* Permet de scroller uniquement le contenu principal */
-  height: 100vh; /* Prend toute la hauteur de l'écran */
-}
 
 @media (max-width: 768px) {
   aside {
@@ -181,19 +83,131 @@ main {
   }
 }
 
-main h1 {
+
+
+/* Colonnes */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.min-h-200px {
+  min-height: 200px;
+}
+
+/* Tâches */
+.bg-blue-100 {
+  background-color: #ebf8ff;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Sidebar */
+aside nav ul {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-grow: 1;
+}
+
+aside nav ul li:last-child {
+  margin-top: auto;
+}
+
+/* Tableau */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f3f4f6;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+table tr:hover {
+  background-color: #e5e7eb;
+}
+
+/* Boutons d'action */
+button {
+  display: inline-flex;
   align-items: center;
-  font-size: 2rem;
-  color: #1e3a8a;
+  justify-content: center;
+ 
+
+  transition: background-color 0.3s ease;
 }
 
-section h2 i {
-  color: #2563eb;
+button i {
+  font-size: 16px;
 }
 
 
-section {
-  width: 100%; /* Chaque section prend toute la largeur */
-  max-width: 100%; /* Empêche les restrictions de largeur */
+/* Couleurs principales */
+:root {
+  --blue-dark: #1e3a8a; /* Bleu foncé */
+  --blue-light: #60a5fa; /* Bleu clair */
+  --gray-light: #f3f4f6; /* Gris clair */
+  --white: #ffffff; /* Blanc */
+  --red-light: #fecaca; /* Rouge pâle */
+  --green-light: #bbf7d0; /* Vert pâle */
+}
+
+/* Sidebar */
+aside {
+  background-color: var(--blue-dark);
+  color: var(--white);
+}
+
+aside a {
+  color: var(--white);
+  transition: color 0.3s ease;
+}
+
+aside a:hover {
+  color: var(--blue-light);
+}
+
+/* Boutons */
+button {
+  background-color: var(--blue-dark);
+  color: var(--white);
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--blue-light);
+}
+
+/* Titres */
+h1, h2 {
+  color: var(--blue-dark);
+}
+
+/* Tableau */
+table th {
+  background-color: var(--gray-light);
+  color: var(--blue-dark);
+}
+
+table tr:nth-child(even) {
+  background-color: var(--gray-light);
+}
+
+table tr:hover {
+  background-color: var(--blue-light);
+  color: var(--white);
 }

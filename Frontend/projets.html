@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mes Projets</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="flex min-h-screen">
+    <!-- Sidebar style ADMIN -->
+     <aside class="w-64 bg-blue-900 text-white flex flex-col">
+      <div class="p-4 text-center font-bold text-xl border-b border-blue-700 flex items-center justify-between">
+        <span class="flex-1 text-left">Iziath</span>
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" alt="Avatar" />
+      </div>
+      <nav class="flex-1 p-4">
+        <ul class="space-y-4">
+          <li><a href="member.html" class="block px-4 py-2 rounded hover:bg-blue-700">Dashboard</a></li>
+          <li><a href="projets.html" class="block px-4 py-2 rounded hover:bg-blue-700">Mes Projets</a></li>
+          <li><a href="tasks.html" class="block px-4 py-2 rounded hover:bg-blue-700">Mes Tâches</a></li>
+          <li><a href="notifications.html" class="block px-4 py-2 rounded hover:bg-blue-700">Notifications</a></li>
+          <li><a href="profil.html" class="block px-4 py-2 rounded hover:bg-blue-700">Profil</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="flex-1 p-6">
+      
+    <h1 class="text-3xl font-bold mb-6 text-blue-900">Mes Projets</h1>
+      <!-- Liste des projets assignés -->
+      <div id="projectList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-4 rounded-xl shadow-md">
+          <h2 class="font-semibold mb-2">Projet Alpha</h2>
+          <p class="text-sm text-gray-600">Tu es affecté en Frontend</p>
+          <button class="text-blue-600 mt-2 hover:underline">Voir Détails</button>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-md">
+          <h2 class="font-semibold mb-2">Projet Bravo</h2>
+          <p class="text-sm text-gray-600">Tu es en charge du test</p>
+          <button class="text-blue-600 mt-2 hover:underline">Voir Détails</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
