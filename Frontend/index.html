@@ -3,32 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="styles/login.css">
   <title>Gestion des Tâches - Connexion</title>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-900">
   <div class="flex h-screen">
     <!-- Section gauche avec image -->
-    <div class="hidden md:flex w-1/2 bg-blue-900 items-center justify-center">
-      <img src="./assets/images/gif3.gif" alt="" class="responsive-image" style="transform: scale(1.1);">
-    </div>
-    <!-- Section droite avec formulaire -->
-    <div class="w-full md:w-1/2 flex items-center justify-center">
-      <form id="loginForm" class="bg-white p-8 rounded shadow-md w-96">
-        <h2 class="text-2xl font-bold mb-6 text-center">Connexion</h2>
-        <div class="mb-4">
-          <label for="email" class="block text-sm font-medium">Email</label>
-          <input type="email" id="email" class="w-full border rounded p-2" required>
-        </div>
-        <div class="mb-4">
-          <label for="password" class="block text-sm font-medium">Mot de passe</label>
-          <input type="password" id="password" class="w-full border rounded p-2" required>
-        </div>
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Se connecter</button>
-      </form>
+    <section class="hidden md:flex w-1/2 bg-gradient-to-br from-blue-700 to-indigo-300 text-white items-center justify-center relative overflow-hidden p-10">
+
+      <!-- ✅ Formes flottantes -->
+      <div class="floating-shapes absolute inset-0 pointer-events-none z-0">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+        <div class="shape shape-6"></div>
+        <div class="shape shape-7"></div>
+        <div class="shape shape-8"></div>
+      </div>
+      <div class="z-10 text-white text-left w-full px-12 animate__animated animate__fadeInLeft animate__slow flex flex-col justify-center h-full">
+        <h1 class="text-5xl font-extrabold leading-snug mb-6 drop-shadow-xl">
+          Bienvenue sur votre espace<br>
+          <span class="text-blue-300">de gestion intelligente</span><br>
+          des tâches
+        </h1>
+        <p class="text-xl text-gray-200 opacity-90 leading-relaxed">
+          Une interface élégante, une expérience fluide.<br>
+          Planifiez, organisez et réussissez… sans stress.
+        </p>
+      </div>
+      
+    </section>
+    
+    
+    
+    
+    <!-- Section droite avec formulaire et background Three.js -->
+    <div class="w-full md:w-1/2 flex items-center justify-center form-section">
+      <div id="canvas-container"></div>
+      <div id="formContainer" class="form-container bg-gray-800 p-8 rounded-lg shadow-xl w-96">
+        <h2 class="text-2xl font-bold mb-6 text-center text-blue-400 fade-in">Connexion</h2>
+        <form id="loginForm">
+          <div class="mb-4 fade-in delay-1">
+            <label for="email" class="block text-sm font-medium text-gray-900 mb-1">Email</label>
+            <input type="email" id="email" class="w-full bg-white border border-gray-300 text-gray-800 rounded-md p-3 text-white input-focus transition-all duration-300 focus:outline-none" required>
+          </div>
+          <div class="mb-6 fade-in delay-2">
+            <label for="password" class="block text-sm font-medium text-gray-900 mb-1">Mot de passe</label>
+            <input type="password" id="password" class="w-full bg-white border border-gray-300 text-gray-800 rounded-md p-3 text-white input-focus transition-all duration-300 focus:outline-none" required>
+          </div>
+          <div class="fade-in delay-3">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-md w-full transition-all duration-300 btn-wave btn-pulse">Se connecter</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-  <script src="script/form.js"></script>
+  
+  <script src="script/login.js"></script>
 </body>
 </html>
