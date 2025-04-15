@@ -3,6 +3,7 @@ const router = express.Router();
 const { createUser, updateUser, deleteUser, changeRole, activateUser, getAllUsers } = require('../controllers/adminController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const roleMiddleware = require('../middlewares/roleMiddleware');
+const { searchUsers } = require('../controllers/searchUser');
 
 // Route pour créer un utilisateur
 router.post('/create', authMiddleware, roleMiddleware('admin'), createUser);
@@ -19,6 +20,10 @@ router.put('/role/:userId', authMiddleware, roleMiddleware('admin'), changeRole)
 // Route pour activer un utilisateur
 router.put('/activate/:userId', authMiddleware, roleMiddleware('admin'), activateUser);
 
+// Route pour avoir un utilisateur
 router.get('/users', authMiddleware, roleMiddleware('admin'), getAllUsers)
+
+// Route pour rechercher un utilisateur
+router.get('/users/search', authMiddleware, roleMiddleware('admin'), searchUsers);
 
 module.exports = router;

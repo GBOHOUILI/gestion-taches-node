@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Gestion des Tâches d'Équipe</title>
+    <link rel="stylesheet" href="styles/accueil.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <span class="logo-icon"><img src="assets/images/logo4.png" alt=""></span>La hiérarchie au service de l'efficacité
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">Fonctionnalités</a></li>
+                    <li><a href="#roles">Rôles</a></li>
+                    <li><a href="index.html" class="btn-login">Se connecter</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Gérez efficacement les tâches de votre équipe</h1>
+                <p>TaskFlow est une plateforme complète pour organiser, suivre et optimiser les flux de travail de vos projets. Parfaite pour les équipes de toutes tailles.</p>
+                <div class="hero-btns">
+                    <a href="register.html" class="btn btn-primary">Commencer</a>
+                    <a href="#" class="btn btn-secondary">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+        <img src="assets/images/Création_sans_titre-removebg-preview.png" alt="TaskFlow Dashboard Preview" class="hero-image">
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Fonctionnalités clés</h2>
+                <p>Découvrez les outils puissants qui facilitent la gestion de vos projets</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><img src="assets/icons/folder.png" alt=""></div>
+                    <h3>Authentification sécurisée</h3>
+                    <p>Système d'authentification JWT robust pour protéger les données de votre entreprise et garantir un accès sécurisé.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><img src="assets/icons/team.png" alt=""></div>
+                    <h3>Gestion des utilisateurs</h3>
+                    <p>Interface intuitive pour créer, modifier ou supprimer des utilisateurs et gérer leurs rôles dans l'organisation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><img src="assets/icons/followers.png" alt=""></div>
+                    <h3>Suivi des projets</h3>
+                    <p>Tableaux de bord dynamiques pour visualiser l'avancement des projets et identifier rapidement les blocages.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><img src="assets/icons/delegation.png" alt=""></div>
+                    <h3>Assignation des tâches</h3>
+                    <p>Système intuitif pour créer des tâches, les assigner aux membres et suivre leur progression en temps réel.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><img src="assets/icons/filter.png" alt=""></div>
+                    <h3>Filtres avancés</h3>
+                    <p>Recherche et filtrage des tâches par priorité, statut, date ou assignation pour une organisation optimale.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><img src="assets/icons/database.png" alt=""></div>
+                    <h3>Accès en ligne</h3>
+                    <p>Application 100% web accessible depuis n'importe quel appareil avec une connexion internet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="roles" id="roles">
+        <div class="container roles-container">
+            <div class="section-title">
+                <h2>Rôles hiérarchiques</h2>
+                <p>Une structure claire pour des responsabilités bien définies</p>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card" id="admin-card">
+                    <div class="role-header admin-header">
+                        <div class="role-icon"><img src="assets/icons/admin.png" alt=""></div>
+                        <h3>Administrateur</h3>
+                    </div>
+                    <div class="role-content">
+                        <h4>Supervision globale</h4>
+                        <ul class="role-list">
+                            <li>Gestion complète des utilisateurs</li>
+                            <li>Attribution des rôles et permissions</li>
+                            <li>Configuration système</li>
+                            <li>Supervision de tous les projets</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="role-card" id="manager-card">
+                    <div class="role-header manager-header">
+                        <div class="role-icon"><img src="assets/icons/project-manager.png" alt=""></div>
+                        <h3>Responsable de projet</h3>
+                    </div>
+                    <div class="role-content">
+                        <h4>Gestion de projets</h4>
+                        <ul class="role-list">
+                            <li>Création et pilotage de projets</li>
+                            <li>Gestion des équipes</li>
+                            <li>Création et assignation des tâches</li>
+                            <li>Suivi de l'avancement</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="role-card" id="member-card">
+                    <div class="role-header member-header">
+                        <div class="role-icon"><img src="assets/icons/team.png" alt=""></div>
+                        <h3>Membre d'équipe</h3>
+                    </div>
+                    <div class="role-content">
+                        <h4>Exécution des tâches</h4>
+                        <ul class="role-list">
+                            <li>Consultation des tâches assignées</li>
+                            <li>Mise à jour du statut des tâches</li>
+                            <li>Commentaires et feedback</li>
+                            <li>Collaboration avec l'équipe</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Prêt à optimiser la gestion de vos projets ?</h2>
+                <p>Rejoignez les équipes qui gèrent efficacement leurs tâches grâce à TaskFlow</p>
+                <a href="#" class="cta-btn">Demander une démo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <span class="logo-icon"><img src="assets/images/logo4.png" alt=""></span>
+                    </div>
+                    <p>Une solution complète pour la gestion de projets et le suivi des tâches en équipe.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="#features">Fonctionnalités</a></li>
+                        <li><a href="#roles">Rôles</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Ressources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Légal</h4>
+                    <ul>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Taskzel. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script/accueil.js"></script>
+</body>
+</html>

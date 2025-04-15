@@ -10,8 +10,9 @@ const createTokenAndSetCookie = (res, payload) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 24 * 60 * 60 * 1000 
+    maxAge: 24 * 60 * 60 * 1000
   });
+  return token;
 };
 
 
@@ -43,7 +44,6 @@ const signIn = async (req, res) => {
     return res.status(400).json({ error: 'Email ou mot de passe incorrects.' });
   }
 
- 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     return res.status(400).json({ error: 'Email ou mot de passe incorrect.' });
@@ -53,12 +53,11 @@ const signIn = async (req, res) => {
     return res.status(403).json({ error: 'Votre compte est en attente de validation par un administrateur.' });
   }
 
-
-  createTokenAndSetCookie(res, { userId: user._id, role: user.role });
+  const token = createTokenAndSetCookie(res, { userId: user._id, role: user.role });
 
   res.status(200).json({
     message: 'Connexion réussie.',
-    user: { id: user._id, nom: user.nom, prenoms: user.prenoms, email: user.email, role: user.role }
+    user: { id: user._id, nom: user.nom, prenoms: user.prenoms, email: user.email, role: user.role, token: token }
   });
 };
 

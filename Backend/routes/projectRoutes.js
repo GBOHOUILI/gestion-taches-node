@@ -11,4 +11,9 @@ router.get('/:id', authMiddleware, projectController.getProjectById);
 router.put('/:id', authMiddleware, roleMiddleware('responsable'), projectController.updateProject);
 router.delete('/:id', authMiddleware, roleMiddleware('responsable'), projectController.deleteProject);
 
+// Permettre au responsable de voir les commentaires laissés par les membres
+const { addComment } = require('../controllers/taskAssignment');
+router.get('/:id/comment', authMiddleware, addComment);
+
+
 module.exports = router;

@@ -143,4 +143,9 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+
+
+
+
+
 module.exports = {createUser, updateUser, deleteUser, changeRole, activateUser, getAllUsers};

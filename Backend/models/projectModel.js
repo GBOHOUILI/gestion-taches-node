@@ -25,6 +25,12 @@ const projectSchema = new mongoose.Schema(
       ref: 'User', // Référence au modèle User
       required: true,
     },
+    membres: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User'
+        }
+      ]
   },
   {
     timestamps: true,

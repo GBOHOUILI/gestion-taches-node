@@ -91,4 +91,52 @@ const deleteTask = async (req, res) => {
   }
 };
 
-module.exports = { createTask, getTasks, getTaskById, updateTask, deleteTask };
+
+
+// permettre aux membre de voir la tache qui leur a été assigné
+
+const getTasksForMemberInProject = async (req, res) => {
+  const userId = req.user.id;
+  const { projectId } = req.params;
+
+  try {
+    const tasks = await Task.find({
+      projet: projectId,
+      assignes: userId
+    }).populate('assignee', 'nom prenoms').populate('projet', 'titre');
+
+    res.status(200).json({ tasks });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des tâches", error: error.message });
+  }
+};
+
+
+const updateTaskStatusByMember = async (req, res) => {
+  const { id } = req.params; // ID de la tâche
+  const { statut } = req.body;
+  const userId = req.user.id; // ID du membre connecté
+
+  try {
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({ message: "Tâche non trouvée" });
+    }
+
+    // Vérifier que l'utilisateur fait partie des assignés
+    const isAssigned = task.assignes.includes(userId);
+    if (!isAssigned) {
+      return res.status(403).json({ message: "Vous n'êtes pas autorisé à modifier cette tâche" });
+    }
+
+    task.statut = statut;
+    await task.save();
+
+    res.status(200).json({ message: "Statut de la tâche mis à jour", task });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la mise à jour du statut", error: error.message });
+  }
+};
+
+module.exports = { createTask, getTasks, getTaskById, updateTask, deleteTask, getTasksForMemberInProject, updateTaskStatusByMember };

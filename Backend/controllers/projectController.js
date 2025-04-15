@@ -1,8 +1,8 @@
-const Project = require('../models/projectModel');
+const Project = require('../models/projectModel');  
 
 const createProject = async (req, res) => {
-  const { titre, description, date_debut, date_fin } = req.body;
-  const responsable_id = req.user.id;  // On récupère l'id du responsable à partir du token
+  const { titre, description, date_debut, date_fin, membres } = req.body;
+  const responsable_id = req.user.id;  // ID récupéré depuis le token
 
   try {
     const newProject = new Project({
@@ -10,7 +10,8 @@ const createProject = async (req, res) => {
       description,
       date_debut,
       date_fin,
-      responsable_id
+      responsable_id,
+      membres: membres || []
     });
 
     await newProject.save();
@@ -19,6 +20,7 @@ const createProject = async (req, res) => {
     res.status(500).json({ message: 'Erreur lors de la création du projet', error: error.message });
   }
 };
+
 
 const getProjects = async (req, res) => {
   const responsable_id = req.user.id;
@@ -85,4 +87,17 @@ const deleteProject = async (req, res) => {
   }
 };
 
-module.exports = { createProject, getProjects, getProjectById, updateProject, deleteProject };
+
+const getProjectsForMember = async (req, res) => {
+  const memberId = req.user.id;
+
+  try {
+    const projects = await Project.find({ membres: memberId }).populate('responsable_id', 'nom prenoms email');
+    res.status(200).json({ projects });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des projets", error: error.message });
+  }
+};
+
+
+module.exports = { createProject, getProjects, getProjectById, updateProject, deleteProject, getProjectsForMember };
