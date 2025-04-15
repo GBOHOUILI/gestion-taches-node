@@ -30,3 +30,4 @@
            const randomY = Math.random() * 100;
            shape.style.transform = `translate(${randomX}px, ${randomY}px)`;
        });
+

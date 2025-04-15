@@ -53,10 +53,10 @@ nav {
 }
 
 .logo {
-    font-size: 1.2rem;
-    font-weight: 300;
+    font-size: 15px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: start;
 }
 
 .logo-icon {
@@ -64,9 +64,15 @@ nav {
     animation: pulse 2s infinite;
 }
 .logo-icon img{
-    width: 100px;
-    height: 80px    ;
+    width: 80px;
+    height: 80px;
 } 
+.logo p {
+    margin-left: 25px;
+    margin-top: -25px;
+    z-index: 1;
+    position: relative;
+}
 
 @keyframes pulse {
     0% { transform: scale(1); }
@@ -89,6 +95,7 @@ nav {
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
+    
 }
 
 .nav-links a:hover {
@@ -130,6 +137,7 @@ nav {
     transition: all 0.3s ease;
     text-decoration: none;
     display: inline-block;
+    animation: pulse 2s infinite;
 }
 
 
@@ -137,6 +145,7 @@ nav {
     background: none;
     border: none;
     cursor: pointer;
+    animation: pulse 2s infinite;
 }
 
 .btn-login:hover {
@@ -224,7 +233,6 @@ nav {
     position: absolute;
     right: -10%;
     top: 50%;
-
     transform: translateY(-50%);
     width: 70%;
     opacity: 0;
@@ -246,6 +254,7 @@ nav {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 50%;
     animation: float 15s infinite linear;
+    
 }
 
 .shape-1 {
@@ -279,6 +288,38 @@ nav {
     right: 10%;
     animation-delay: 6s;
 }
+
+.shape-5{
+    width: 80px;
+    height: 80px;
+    bottom: 20%;
+    right: 60%;
+    animation-delay: 5s;
+}
+
+.shape-6{
+    width: 50px;
+    height: 50px;
+    bottom: 60%;
+    right: 0%;
+    animation-delay: 5s;
+}
+.shape-7{
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    right: 0;
+    animation-delay: 5s;
+}
+
+.shape-8{
+    width: 80px;
+    height: 80px;
+    bottom: 50%;
+    left: 10%;
+    animation-delay: 7s;
+}
+
 
 /* Features Section */
 .features {
@@ -327,14 +368,14 @@ nav {
     padding: 2rem;
     border-radius: 15px;
     box-shadow: var(--shadow);
-    transition: all 0.3s ease;
+    transition: all 2s ease;
     position: relative;
     z-index: 1;
     overflow: hidden;
 }
 
 .feature-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-20px);
 }
 
 .feature-card::before {
@@ -351,7 +392,7 @@ nav {
 .feature-card:hover::before {
     height: 100%;
     opacity: 0.1;
-    transition: all 0.3s ease;
+    transition: all 1s ease;
 }
 
 .feature-icon {
@@ -398,32 +439,95 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('/api/placeholder/1200/800') no-repeat center center;
     background-size: cover;
     opacity: 0.03;
     z-index: 0;
 }
 
+/* .nav-button {
+    position: absolute;
+    top: 65%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    padding: 10px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+  }
+  .nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  .nav-button img {
+    width: 100px;
+    height: 100px;
+  }
+#next {
+    right: 0px;;
+}
+#prev {
+    left: 0px;
+} */
+
 .roles-container {
     position: relative;
     z-index: 1;
+    perspective: 1200px; 
 }
 
 .roles-grid {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
+    transform-style: preserve-3d; 
+
 }
 
 .role-card {
+    position: relative;
     background: white;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--shadow);
-    transition: all 0.3s ease;
-    transform: translateY(50px);
+    transition: all 0.1s ease;
+    transform: translateX(300px);
+    cursor: pointer;
     opacity: 0;
+}
+
+  .role-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 123, 255, 0.1);
+    transform: skewX(-20deg);
+    transition: all 3s ease;
+  }
+  
+  .role-card:hover::before {
+    left: 100%;
+  }
+  
+  .role-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 5);
+    position: relative;
+    z-index: 100;
+width: 120%;
+    opacity: 1;
+    text-align: center;
 }
 
 .role-card.animate {
@@ -446,11 +550,6 @@ nav {
 
 .member-header {
     background: var(--accent-gradient);
-}
-
-.role-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
 }
 
 .role-icon img {
@@ -481,6 +580,7 @@ nav {
     content: '✓';
     color: #2575fc;
     margin-right: 0.5rem;
+    font-size: 30px;
     font-weight: bold;
 }
 
