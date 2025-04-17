@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+
+const API_BASE_URL = 'http://localhost:8080/api';
+const EMAIL_API_URL = 'http://localhost:8080/send-email'; // URL de l'API pour envoyer des emails
 
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -10,41 +12,51 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   const role = document.getElementById('role').value;
 
   try {
-    const response = await fetch('http://localhost:8000/api/auth/register', {
+    // Ajout de l'utilisateur à la liste d'attente
+    const response = await fetch(`${API_BASE_URL}/users/pending`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify({ nom, prenoms, email, password, role }),
     });
 
-    const data = await response.json();
-
     if (response.ok) {
-      // Peu importe le rôle, l'inscription est soumise et en attente de validation
       alert('Votre inscription a été soumise. Veuillez attendre la validation de l\'admin.');
+      document.getElementById('registerForm').reset();
 
-      // Envoi d'une notification par email à l'admin par défaut
-      await fetch(`${API_BASE_URL}/notify-admin`, {
+      // Envoi d'un email à l'admin via l'API backend
+      const emailResponse = await fetch(EMAIL_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, nom, prenom, role }),
+        body: JSON.stringify({
+          to: 'eldomoreogbohouili@gmail.com', // Email de l'admin
+          subject: 'Nouvelle inscription en attente de validation',
+          message: `Un nouvel utilisateur s'est inscrit : 
+            Nom : ${nom}
+            Prénom : ${prenoms}
+            Email : ${email}
+            Rôle : ${role}
+            
+            Veuillez valider l'inscription via le tableau de bord : admin.html`,
+        }),
       });
-        alert('Votre inscription a été soumise. Veuillez attendre la validation de l\'admin.');
+
+      if (emailResponse.ok) {
+        console.log('Email envoyé avec succès à l\'admin.');
       } else {
-        alert(data.message || 'Erreur lors de l\'inscription.');
+        console.error('Erreur lors de l\'envoi de l\'email à l\'admin.');
       }
 
-    if (response.ok) {
-      alert('Inscription réussie. Vous pouvez maintenant vous connecter.');
-      window.location.href = 'index.html'; // Redirige vers la page de connexion
+      // Redirection vers la page d'accueil
+      window.location.href = 'index.html';
+    } else {
+      const errorData = await response.json();
+      alert(`Erreur lors de l'inscription : ${errorData.message}`);
     }
   } catch (error) {
     console.error('Erreur lors de l\'inscription :', error);
     alert('Une erreur est survenue. Veuillez réessayer.');
   }
 });
-
-
 
   
   // Fonction d'initialisation du background Three.js

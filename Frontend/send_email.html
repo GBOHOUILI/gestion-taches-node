@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Envoyer un Email</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white p-8 rounded shadow-lg w-full max-w-lg">
+    <h1 class="text-2xl font-bold mb-6 text-center text-blue-800">Envoyer un Email</h1>
+
+    <form id="emailForm">
+      <div class="mb-4">
+        <label for="recipient" class="block text-sm font-medium text-gray-700">Destinataire</label>
+        <input type="email" id="recipient" class="w-full mt-1 p-2 border rounded" placeholder="ex: utilisateur@mail.com" required />
+      </div>
+
+      <div class="mb-4">
+        <label for="subject" class="block text-sm font-medium text-gray-700">Sujet</label>
+        <input type="text" id="subject" class="w-full mt-1 p-2 border rounded" placeholder="Sujet du mail" required />
+      </div>
+
+      <div class="mb-4">
+        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+        <textarea id="message" rows="6" class="w-full mt-1 p-2 border rounded" placeholder="Votre message ici..." required></textarea>
+      </div>
+
+      <div class="flex justify-end">
+        <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">
+          Envoyer
+        </button>
+      </div>
+    </form>
+
+    <div id="successMessage" class="hidden text-green-600 mt-4 text-sm font-semibold text-center">
+      ✅ Email envoyé avec succès !
+    </div>
+  </div>
+
+  <script src="script/send_email.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+</body>
+</html>

@@ -6,6 +6,7 @@ body {
   height: 100vh;
   overflow: hidden; /* Empêche le défilement global */
   background: linear-gradient(135deg, #0f172a, #1e3a8a);
+  overflow: visible !important;
 }
 
 @keyframes float {
@@ -169,6 +170,7 @@ form button:active {
 
 /* Configuration du background Three.js */
 #canvas-container {
+  pointer-events: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -222,6 +224,8 @@ form {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: white;
+   animation: none !important;
+  transition: none !important;
 }
 
 form input, form select {
@@ -268,6 +272,10 @@ img {
     height: auto; /* Ajuste la hauteur */
     bottom: 0; /* Place la sidebar en bas de l'écran */
     z-index: 10;
+  }
+
+  #formContainer {
+    display: block; /* Assurez-vous qu'il est visible sur les petits écrans */
   }
 
   main {
@@ -403,4 +411,17 @@ table tr:nth-child(even) {
 table tr:hover {
   background-color: var(--blue-light);
   color: var(--white);
+}
+
+
+
+
+#formContainer {
+  position: relative;
+  opacity: 1;
+  display: block;
+  background: white;
+  padding: 20px;
+  border: 1px solid black;
+  z-index: 10;
 }

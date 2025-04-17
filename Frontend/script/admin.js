@@ -1,3 +1,4 @@
+// Sélection des éléments DOM
 const userTableBody = document.getElementById('userTableBody');
 const userModal = document.getElementById('userModal');
 const modalTitle = document.getElementById('modalTitle');
@@ -8,36 +9,135 @@ const pendingUsersTableBody = document.getElementById('pendingUsersTableBody');
 
 let editingUserId = null;
 
-// Mock data (à remplacer par des appels API)
-const users = [
-  { id: 1, name: 'Alice', email: 'alice@example.com', role: 'responsable' },
-  { id: 2, name: 'Bob', email: 'bob@example.com', role: 'membre' },
-];
+// URL de base de l'API
+const API_BASE_URL = 'http://localhost:8080/api';
 
-// Afficher les utilisateurs dans le tableau
-function renderUsers() {
-userTableBody.innerHTML = users
-    .map(
+/**
+ * Récupère et affiche les utilisateurs en attente depuis l'API.
+ */
+async function fetchPendingUsers() {
+  try {
+    const response = await fetch('http://localhost:8080/api/users/pending');
+    if (!response.ok) throw new Error('Erreur lors de la récupération des utilisateurs en attente.');
+    const pendingUsers = await response.json();
+
+    pendingUsersTableBody.innerHTML = pendingUsers
+      .map(
         (user) => `
-    <tr>
-        <td class="p-4">${user.name}</td>
-        <td class="p-4">${user.email}</td>
-        <td class="p-4">${user.role}</td>
-        <td class="p-4">
-            <button class="text-yellow-500 hover:text-yellow-600" onclick="editUser(${user.id})">
-                <i class="fas fa-edit"></i>
-            </button>
-            <button class="text-red-500 hover:text-red-600" onclick="deleteUser(${user.id})">
-                <i class="fas fa-trash"></i>
-            </button>
+      <tr>
+        <td>${user.nom}</td>
+        <td>${user.prenoms}</td>
+        <td>${user.email}</td>
+        <td>${user.role}</td>
+        <td>
+          <button class="text-green-500 hover:text-green-600" onclick="handleUserValidation('${user._id}')">
+            Valider
+          </button>
+          <button class="text-red-500 hover:text-red-600" onclick="handleUserDeletion('${user._id}', true)">
+            Supprimer
+          </button>
         </td>
-    </tr>
-`
-    )
-    .join('');
+      </tr>
+    `
+      )
+      .join('');
+  } catch (error) {
+    console.error(error.message);
+  }
 }
 
-// Ouvrir la modale pour créer un utilisateur
+/**
+ * Valide un utilisateur en attente via l'API.
+ * @param {string} userId - ID de l'utilisateur à valider.
+ */
+async function handleUserValidation(userId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/validate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Erreur lors de la validation de l\'utilisateur.');
+    }
+
+    alert('Utilisateur validé avec succès.');
+    fetchPendingUsers(); // Rafraîchir la liste des utilisateurs en attente
+  } catch (error) {
+    console.error(error.message);
+    alert(error.message);
+  }
+}
+
+/**
+ * Supprime un utilisateur (en attente ou non) via l'API.
+ * @param {string} userId - ID de l'utilisateur à supprimer.
+ * @param {boolean} isPending - Indique si l'utilisateur est en attente.
+ */
+async function handleUserDeletion(userId, isPending = false) {
+  try {
+    const endpoint = isPending ? 'users/pending/delete' : 'users/delete';
+    const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Erreur lors de la suppression de l\'utilisateur.');
+    }
+
+    alert('Utilisateur supprimé avec succès.');
+    if (isPending) {
+      fetchPendingUsers(); // Rafraîchir la liste des utilisateurs en attente
+    } else {
+      fetchUsers(); // Rafraîchir la liste des utilisateurs
+    }
+  } catch (error) {
+    console.error(error.message);
+    alert(error.message);
+  }
+}
+
+/**
+ * Récupère et affiche les utilisateurs depuis l'API.
+ */
+async function fetchUsers() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users`);
+    if (!response.ok) throw new Error('Erreur lors de la récupération des utilisateurs.');
+    const users = await response.json();
+
+    userTableBody.innerHTML = users
+      .map(
+        (user) => `
+      <tr>
+        <td>${user.name}</td>
+        <td>${user.email}</td>
+        <td>${user.role}</td>
+        <td>
+          <button class="text-yellow-500 hover:text-yellow-600" onclick="editUser('${user._id}')">
+            Modifier
+          </button>
+          <button class="text-red-500 hover:text-red-600" onclick="handleUserDeletion('${user._id}')">
+            Supprimer
+          </button>
+        </td>
+      </tr>
+    `
+      )
+      .join('');
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+/**
+ * Ouvre la modale pour créer un utilisateur.
+ */
 createUserBtn.addEventListener('click', () => {
   editingUserId = null;
   modalTitle.textContent = 'Créer un utilisateur';
@@ -45,98 +145,70 @@ createUserBtn.addEventListener('click', () => {
   userModal.classList.remove('hidden');
 });
 
-// Fermer la modale
+/**
+ * Ferme la modale.
+ */
 cancelBtn.addEventListener('click', () => {
   userModal.classList.add('hidden');
 });
 
-// Enregistrer un utilisateur (création ou modification)
-userForm.addEventListener('submit', (e) => {
+/**
+ * Enregistre un utilisateur (création ou modification) via l'API.
+ */
+userForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const role = document.getElementById('role').value;
 
-  if (editingUserId) {
-    // Modifier un utilisateur existant
-    const user = users.find((u) => u.id === editingUserId);
-    user.name = name;
-    user.email = email;
-    user.role = role;
-  } else {
-    // Créer un nouvel utilisateur
-    users.push({ id: Date.now(), name, email, role });
-  }
+  try {
+    const endpoint = editingUserId ? `users/update/${editingUserId}` : 'users/create';
+    const method = editingUserId ? 'PUT' : 'POST';
 
-  renderUsers();
-  userModal.classList.add('hidden');
+    const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, role }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Erreur lors de l\'enregistrement de l\'utilisateur.');
+    }
+
+    alert(editingUserId ? 'Utilisateur modifié avec succès.' : 'Utilisateur créé avec succès.');
+    userModal.classList.add('hidden');
+    fetchUsers(); // Rafraîchir la liste des utilisateurs
+  } catch (error) {
+    console.error(error.message);
+    alert(error.message);
+  }
 });
 
-// Modifier un utilisateur
-function editUser(id) {
-  const user = users.find((u) => u.id === id);
-  editingUserId = id;
-  modalTitle.textContent = 'Modifier un utilisateur';
-  document.getElementById('name').value = user.name;
-  document.getElementById('email').value = user.email;
-  document.getElementById('role').value = user.role;
-  userModal.classList.remove('hidden');
+/**
+ * Ouvre la modale pour modifier un utilisateur.
+ * @param {string} userId - ID de l'utilisateur à modifier.
+ */
+async function editUser(userId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/${userId}`);
+    if (!response.ok) throw new Error('Erreur lors de la récupération des informations de l\'utilisateur.');
+    const user = await response.json();
+
+    editingUserId = userId;
+    modalTitle.textContent = 'Modifier un utilisateur';
+    document.getElementById('name').value = user.name;
+    document.getElementById('email').value = user.email;
+    document.getElementById('role').value = user.role;
+    userModal.classList.remove('hidden');
+  } catch (error) {
+    console.error(error.message);
+    alert(error.message);
+  }
 }
 
-// Supprimer un utilisateur
-function deleteUser(id) {
-  const index = users.findIndex((u) => u.id === id);
-  users.splice(index, 1);
-  renderUsers();
-}
-
-
-
-// Mock data pour les utilisateurs en attente
-const pendingUsers = [
-  { id: 3, name: 'Charlie', email: 'charlie@example.com', role: 'membre' },
-];
-
-// Afficher les utilisateurs en attente
-function renderPendingUsers() {
-pendingUsersTableBody.innerHTML = pendingUsers
-    .map(
-        (user) => `
-    <tr>
-        <td class="p-4">${user.name}</td>
-        <td class="p-4">${user.email}</td>
-        <td class="p-4">${user.role}</td>
-        <td class="p-4 flex space-x-4">
-            <button class="text-green-500 hover:text-green-600" onclick="validateUser(${user.id})">
-                <i class="fas fa-check"></i>
-            </button>
-            <button class="text-red-500 hover:text-red-600" onclick="deletePendingUser(${user.id})">
-                <i class="fas fa-trash"></i>
-            </button>
-        </td>
-    </tr>
-`
-    )
-    .join('');
-}
-
-// Valider un utilisateur
-function validateUser(id) {
-  const index = pendingUsers.findIndex((u) => u.id === id);
-  const user = pendingUsers.splice(index, 1)[0];
-  users.push(user); // Ajouter l'utilisateur validé à la liste principale
-  renderPendingUsers();
-  renderUsers();
-}
-
-// Supprimer un utilisateur en attente
-function deletePendingUser(id) {
-  const index = pendingUsers.findIndex((u) => u.id === id);
-  pendingUsers.splice(index, 1);
-  renderPendingUsers();
-}
-
-// Initialiser les utilisateurs en attente
-renderPendingUsers();
-// Initialiser le tableau
-renderUsers();
+// Charger les utilisateurs et les utilisateurs en attente au démarrage
+document.addEventListener('DOMContentLoaded', () => {
+  fetchUsers();
+  fetchPendingUsers();
+});
