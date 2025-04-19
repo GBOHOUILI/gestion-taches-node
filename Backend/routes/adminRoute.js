@@ -1,9 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const { createUser, updateUser, deleteUser, changeRole, activateUser, getAllUsers } = require('../controllers/adminController');
+const {
+  createUser,
+  updateUser,
+  deleteUser,
+  changeRole,
+  activateUser,
+  getAllUsers
+} = require('../controllers/adminController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const roleMiddleware = require('../middlewares/roleMiddleware');
 const { searchUsers } = require('../controllers/searchUser');
+
+
+// Middleware pour vérifier l'authentification et le rôle d'administrateur
+const adminAuth = [authMiddleware, roleMiddleware('admin')];
 
 // Route pour créer un utilisateur
 router.post('/create', authMiddleware, roleMiddleware('admin'), createUser);
@@ -18,10 +29,10 @@ router.delete('/delete/:userId', authMiddleware, roleMiddleware('admin'), delete
 router.put('/role/:userId', authMiddleware, roleMiddleware('admin'), changeRole);
 
 // Route pour activer un utilisateur
-router.put('/activate/:userId', authMiddleware, roleMiddleware('admin'), activateUser);
+router.patch('/activate/:userId',authMiddleware, roleMiddleware('admin'), activateUser);
 
-// Route pour avoir un utilisateur
-router.get('/users', authMiddleware, roleMiddleware('admin'), getAllUsers)
+// Route pour récupérer tous les utilisateurs
+router.get('/users', authMiddleware, roleMiddleware('admin'), getAllUsers);
 
 // Route pour rechercher un utilisateur
 router.get('/users/search', authMiddleware, roleMiddleware('admin'), searchUsers);
