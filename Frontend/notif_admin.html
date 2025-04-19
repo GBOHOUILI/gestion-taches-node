@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <title>Notifications - Admin</title>
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-900 text-white flex flex-col">
+      <div class="p-4 text-center font-bold text-xl border-b border-blue-700 flex items-center justify-between">
+        <span id="adminName" class="flex-1 text-left">John Doe</span>
+        <img src="./assets/icons/icon1.png" alt="Admin Icon" class="w-12 h-12 rounded-full">
+      </div>
+      <nav class="flex-1 p-4">
+        <ul class="space-y-4">
+            <li><a href="admin.html" class="block px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-users"></i> Gestion des Utilisateurs</a></li>
+            <li><a href="notif_admin.html" class="block px-4 py-2 rounded bg-blue-700"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li><a href="settings_admin.html" class="block px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-cogs"></i> Paramètres</a></li>
+            <li><a href="index.html" class="block px-4 py-2 rounded hover:bg-blue-700"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="flex-1 p-8">
+      <h1 class="text-3xl font-bold mb-6">Notifications</h1>
+
+      <!-- Liste des notifications -->
+      <div class="mb-6">
+        <h2 class="text-xl font-bold mb-4">Notifications récentes</h2>
+        <div class="bg-white rounded shadow overflow-hidden">
+          <table class="w-full">
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="p-4 text-left">Titre</th>
+                <th class="p-4 text-left">Message</th>
+                <th class="p-4 text-left">Date</th>
+                <th class="p-4 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="notificationsTableBody">
+              <!-- Les notifications seront injectées ici -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Formulaire pour envoyer une notification -->
+      <div class="bg-white p-6 rounded shadow-md">
+        <h2 class="text-xl font-bold mb-4">Envoyer une notification</h2>
+        <form id="notificationForm">
+          <div class="mb-4">
+            <label for="notificationTitle" class="block text-sm font-medium">Titre</label>
+            <input type="text" id="notificationTitle" class="w-full border rounded p-2" required>
+          </div>
+          <div class="mb-4">
+            <label for="notificationMessage" class="block text-sm font-medium">Message</label>
+            <textarea id="notificationMessage" class="w-full border rounded p-2" rows="4" required></textarea>
+          </div>
+          <div class="flex justify-end space-x-4">
+            <button type="button" id="cancelNotificationBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+              Annuler
+            </button>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+              Envoyer
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script src="script/admin.js"></script>
+</body>
+</html>

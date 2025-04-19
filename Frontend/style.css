@@ -5,7 +5,7 @@ body {
   padding: 0;
   height: 100vh;
   overflow: hidden; /* Empêche le défilement global */
-  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+  /* background: linear-gradient(135deg, #0f172a, #1e3a8a); */
 }
 
 @keyframes float {

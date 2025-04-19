@@ -23,40 +23,98 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Animation de soumission du formulaire
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Animation des inputs pour validation
-      inputs.forEach(input => {
-        input.disabled = true;
-        input.classList.add('opacity-70');
-      });
-      
-      // Animation du bouton
-      const button = this.querySelector('button');
-      button.innerHTML = '<span class="inline-block animate-spin mr-2">↻</span> Connexion...';
-      button.classList.add('bg-blue-800');
-      
-      // Simulation de connexion (à remplacer par votre logique d'authentification)
-      setTimeout(() => {
-        button.innerHTML = '✓ Connecté!';
-        button.classList.remove('bg-blue-800');
-        button.classList.add('bg-green-600');
-        
-        // Redirection ou autre action après connexion
-        setTimeout(() => {
-          // window.location.href = "dashboard.html";
-          button.innerHTML = 'Se connecter';
-          button.classList.remove('bg-green-600');
-          button.classList.add('bg-blue-600');
-          inputs.forEach(input => {
-            input.disabled = false;
-            input.classList.remove('opacity-70');
-            input.value = '';
-          });
-        }, 1500);
-      }, 2000);
+  // Animation de soumission du formulaire
+  
+  const API_BASE_URL = 'http://localhost:8080/api/users'; // URL de l'API backend
+document.getElementById('loginForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  // Récupération des valeurs des champs
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    alert('Veuillez remplir tous les champs.');
+    return;
+  }
+
+  // Animation des inputs pour validation
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    input.disabled = true;
+    input.classList.add('opacity-70');
+  });
+
+  // Animation du bouton
+  const button = this.querySelector('button');
+  button.innerHTML = '<span class="inline-block animate-spin mr-2">↻</span> Connexion...';
+  button.classList.add('bg-blue-800');
+
+  // Préparation des données pour l'API
+  const loginData = { email, password };
+  console.log('Données envoyées :', JSON.stringify(loginData));
+
+  try {
+    // Appel à l'API backend pour authentification
+    const response = await fetch('http://localhost:8080/api/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
     });
+
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      console.error('Erreur API :', errorDetails);
+      alert(errorDetails.error || 'Échec de la connexion. Vérifiez vos identifiants.');
+      throw new Error(errorDetails.error || 'Échec de la connexion.');
+    }
+
+    const user = await response.json();
+    console.log('Réponse utilisateur :', user);
+
+    // Vérification du statut de l'utilisateur
+    if (user.user.isActive === true) {
+      if (user.user.role === 'admin') {
+        window.location.href = "admin.html";
+      } else if (user.user.role === 'membre') {
+        window.location.href = "member.html";
+      } else if (user.user.role === 'responsable') {
+        window.location.href = "manager.html";
+      } else {
+        throw new Error("Rôle inconnu");
+      }
+    }
+    else {
+      throw new Error("Votre compte est inactif. Veuillez contacter l'administrateur.");
+    }
+  } catch (error) {
+    console.error('Erreur :', error.message);
+    alert(error.message);
+    button.innerHTML = 'Se connecter';
+    button.classList.remove('bg-blue-800');
+    inputs.forEach(input => {
+      input.disabled = false;
+      input.classList.remove('opacity-70');
+    });
+  }
+});
+
+// Fonction d'authentification simulée
+// async function authenticateUser() {
+//   // Remplacez cette simulation par une requête API réelle
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       // Exemple de réponse utilisateur
+//       const user = {
+//         isActive: true, // Changez à false pour tester un utilisateur inactif
+//         role: 'admin' // Changez à 'user' pour tester un utilisateur normal
+//       };
+//       resolve(user);
+//     }, 2000);
+//   });
+// }
   });
   
   // Fonction d'initialisation du background Three.js
