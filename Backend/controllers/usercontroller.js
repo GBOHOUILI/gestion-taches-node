@@ -1,6 +1,4 @@
-// filepath: c:\projetDCLIC\gestion-taches-node\Backend\controllers\userController.js
-
-const User = require('../models/UsersModel'); // Assurez-vous que le modèle User est correctement défini
+const User = require('../models/userModel'); 
 
 // Récupérer tous les utilisateurs
 exports.getAllUsers = async (req, res) => {

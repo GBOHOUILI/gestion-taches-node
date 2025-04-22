@@ -41,4 +41,28 @@ const html = `
   await sendEmail(email, subject, html);
 };
 
-module.exports = { sendAdminNotification, sendUserNotification };
+
+const sendUserCredentials = async (userDetails, password) => {
+  const { email, nom } = userDetails;
+
+  const subject = 'Vos identifiants de connexion';
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <h3 style="color: #4CAF50;">Bonjour ${nom},</h3>
+        <p>Votre compte a été créé avec succès. Voici vos identifiants de connexion :</p>
+        <ul>
+            <li><strong>Email :</strong> ${email}</li>
+            <li><strong>Mot de passe :</strong> ${password}</li>
+        </ul>
+        <p>
+            Vous pouvez vous connecter en cliquant sur le lien suivant :
+            <a href="http://localhost:8080/frontend/index.html" style="color: #4CAF50; text-decoration: none;">Se connecter</a>
+        </p>
+       
+    </div>
+  `;
+
+  await sendEmail(email, subject, html);
+};
+
+module.exports = { sendAdminNotification, sendUserNotification, sendUserCredentials };

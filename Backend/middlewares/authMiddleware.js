@@ -1,25 +1,23 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const authMiddleware  = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(401).json({ message: 'Non authentifié. Aucun jeton fourni.' });
+    }
 
-const authMiddleware = async (req, res, next) => {
-  const authHeader = req.header('Authorization');
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ message: 'Accès non autorisé. Jeton manquant.' });
+    }
 
-  if (!authHeader) {
-    return res.status(401).json({ message: 'Non authentifié. Aucun jeton fourni.' });
-  }
-
-  const token = authHeader.split(' ')[1]; // Récupérer le jeton après "Bearer"
-  if (!token) {
-    return res.status(401).json({ message: 'Accès non autorisé. Jeton manquant.' });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Vérifiez le jeton avec la clé secrète
-    req.user = decoded; // Ajoutez les informations de l'utilisateur au `req`
-    next();
-  } catch (error) {
-    return res.status(401).json({ message: 'Token invalide ou expiré.' });
-  }
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // Ajoute les informations de l'utilisateur au `req`
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Token invalide ou expiré.' });
+    }
 };
 
 const generateToken = (user) => {
@@ -30,4 +28,4 @@ const generateToken = (user) => {
   );
 };
 
-module.exports = authMiddleware;
+module.exports = { authMiddleware, generateToken };

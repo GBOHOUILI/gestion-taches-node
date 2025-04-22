@@ -26,7 +26,7 @@ const getTasks = async (req, res) => {
   const responsable_id = req.user.id;
 
   try {
-    const tasks = await Task.find({ responsable_id }).populate('responsable_id', 'nom email');
+    const tasks = await Task.find({ responsable_id }).populate('responsable_id', 'nom email').populate('projet_id', 'titre description').populate('assignee', 'nom prenoms');
     res.status(200).json({tasks });
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la récupération des taches', error: error.message });

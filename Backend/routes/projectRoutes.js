@@ -1,19 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
-const authMiddleware = require('../middlewares/authMiddleware');
+const { authMiddleware } = require('../middlewares/authMiddleware');
 const roleMiddleware = require('../middlewares/roleMiddleware');
+const { addComment, getComments } = require('../controllers/taskAssignment');
 
-// Routes protégées par l'authentification et le rôle (responsable uniquement pour certaines actions)
+// Vérification des imports
+console.log('projectController:', projectController);
+console.log('authMiddleware:', typeof authMiddleware);
+console.log('roleMiddleware:', typeof roleMiddleware('responsable'));
+console.log('addComment:', typeof addComment);
+
+// Routes protégées par l'authentification et le rôle
 router.post('/', authMiddleware, roleMiddleware('responsable'), projectController.createProject);
-router.get('/', authMiddleware, projectController.getProjects);
-router.get('/:id', authMiddleware, projectController.getProjectById);
+router.get('/', authMiddleware, roleMiddleware('responsable'), projectController.getProjects);
+router.get('/:id', authMiddleware, roleMiddleware('responsable'), projectController.getProjectById);
 router.put('/:id', authMiddleware, roleMiddleware('responsable'), projectController.updateProject);
 router.delete('/:id', authMiddleware, roleMiddleware('responsable'), projectController.deleteProject);
 
-// Permettre au responsable de voir les commentaires laissés par les membres
-const { addComment } = require('../controllers/taskAssignment');
-router.get('/:id/comment', authMiddleware, addComment);
-
+// Routes pour les commentaires
+router.post('/:id/comment', authMiddleware, addComment);
+router.get('/:id/comment', authMiddleware, getComments);
 
 module.exports = router;

@@ -5,7 +5,7 @@ const router = express.Router();
 const { signUp, signIn, logout } = require('../controllers/authController');
 
 // Middleware d'authentification
-const authMiddleware = require('../middlewares/authMiddleware');
+const { authMiddleware } = require('../middlewares/authMiddleware');
 
 // Contrôleurs de projet
 const { getProjectsForMember } = require('../controllers/projectController');
@@ -18,24 +18,13 @@ const { addComment, getComments } = require('../controllers/taskAssignment');
 
 const {renewToken} = require('../controllers/authController');
 
-// ==================== Routes d'authentification ====================
 
-router.post('/renew-token', renewToken);
-// Inscription
+//router.post('/renew-token', renewToken);
 router.post('/register', signUp);
-
-// Connexion
 router.post('/login', signIn);
-
-// Déconnexion
 router.post('/logout', logout);
 
-// ==================== Routes pour les projets ====================
-
-// Récupérer les projets d'un membre
 router.get('/mes-projets', authMiddleware, getProjectsForMember);
-
-// ==================== Routes pour les tâches ====================
 
 // Récupérer les tâches d'un membre dans un projet
 router.get('/projets/:projectId/mes-taches', authMiddleware, getTasksForMemberInProject);

@@ -72,6 +72,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     }
 
     const user = await response.json();
+    localStorage.setItem('token', user.user.token); // Stockage du token
     console.log('Réponse utilisateur :', user);
 
     // Vérification du statut de l'utilisateur

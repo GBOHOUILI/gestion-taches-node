@@ -71,6 +71,13 @@ const signUp = async (req, res) => {
       nom: newUser.nom,
     });
 
+const io = req.app.get('io'); // Récupérer l'instance de Socket.IO
+    io.emit('newNotification', {
+      message: `Nouvel utilisateur inscrit : ${newUser.nom} ${newUser.prenoms}`,
+      icon: 'message-circle',
+      time: new Date(),
+    });
+
     res.status(201).json({ message: 'Utilisateur créé avec succès.' });
   } catch (error) {
     console.error('Erreur lors de l\'inscription :', error);

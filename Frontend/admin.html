@@ -38,6 +38,7 @@
             <thead class="bg-gray-200">
               <tr>
                 <th class="p-4 text-left">Nom</th>
+                <th class="p-4 text-left">Prenom</th>
                 <th class="p-4 text-left">Email</th>
                 <th class="p-4 text-left">Rôle</th>
                 <th class="p-4 text-left">Actions</th>
@@ -63,6 +64,8 @@
           <thead class="bg-gray-200">
             <tr>
               <th class="p-4 text-left">Nom</th>
+              
+              <th class="p-4 text-left">Prenom</th>
               <th class="p-4 text-left">Email</th>
               <th class="p-4 text-left">Rôle</th>
               <th class="p-4 text-left">Actions</th>
@@ -85,6 +88,12 @@
           <label for="name" class="block text-sm font-medium">Nom</label>
           <input type="text" id="name" class="w-full border rounded p-2" required>
         </div>
+
+         <div class="mb-4">
+          <label for="prenoms" class="block text-sm font-medium">Prenom</label>
+          <input type="text" id="prenoms" class="w-full border rounded p-2" required>
+        </div>
+
         <div class="mb-4">
           <label for="email" class="block text-sm font-medium">Email</label>
           <input type="email" id="email" class="w-full border rounded p-2" required>
@@ -94,6 +103,8 @@
           <select id="role" class="w-full border rounded p-2" required>
             <option value="responsable">Responsable</option>
             <option value="membre">Membre</option>
+            
+            <option value="membre">admin</option>
           </select>
         </div>
         <div class="flex justify-end space-x-4">

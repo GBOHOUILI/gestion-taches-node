@@ -11,6 +11,13 @@ const pendingUsersTableBody = document.getElementById('pendingUsersTableBody');
 let editingUserId = null;
 
 // Fonction pour renouveler le jeton
+
+createUserBtn.addEventListener('click', () => {
+  editingUserId = null; // Réinitialise l'ID d'édition
+  modalTitle.textContent = 'Créer un utilisateur'; // Change le titre de la modale
+  userForm.reset(); // Réinitialise le formulaire
+  userModal.classList.remove('hidden'); // Affiche la modale
+});
 async function renewToken() {
   try {
     const response = await fetch('http://localhost:8080/api/users/renew-token', {
@@ -76,10 +83,10 @@ async function renderUsers() {
         <td class="p-4">${user.role}</td>
         <td class="p-4">
             <button class="text-yellow-500 hover:text-yellow-600" onclick="editUser('${user._id}')">
-                <i class="fas fa-edit"></i>
+                <i class="fas fa-edit"></i> Modifier
             </button>
             <button class="text-red-500 hover:text-red-600" onclick="deleteUser('${user._id}')">
-                <i class="fas fa-trash"></i>
+                <i class="fas fa-trash"></i> Supprimer
             </button>
         </td>
     </tr>
@@ -118,7 +125,7 @@ async function renderPendingUsers() {
 // Fonction pour valider un utilisateur
 async function validateUser(id) {
   try {
-    const response = await fetch(`http://localhost:8080/api/admin/users/${id}/validate`, {
+    const response = await fetch(`http://localhost:8080/api/admin/activate/${id}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -145,7 +152,7 @@ async function validateUser(id) {
 // Fonction pour supprimer un utilisateur
 async function deleteUser(id) {
   try {
-    const response = await fetch(`http://localhost:8080/api/admin/users/${id}`, {
+    const response = await fetch(`http://localhost:8080/api/admin/delete/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -168,6 +175,97 @@ async function deleteUser(id) {
     console.error('Erreur lors de la suppression de l’utilisateur :', error);
   }
 }
+
+// Fonction pour modifier un utilisateur
+async function editUser(id) {
+  try {
+    const response = await fetch(`http://localhost:8080/api/admin/users/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        console.warn('Jeton expiré ou invalide. Tentative de renouvellement...');
+        await renewToken();
+        return editUser(id); // Relance la requête après renouvellement
+      }
+      throw new Error(`Erreur HTTP : ${response.status}`);
+    }
+
+    const user = await response.json();
+    editingUserId = id; // Stocke l'ID de l'utilisateur en cours d'édition
+    modalTitle.textContent = 'Modifier un utilisateur';
+    document.getElementById('name').value = user.nom;
+    document.getElementById('prenoms').value = user.prenoms;
+    document.getElementById('email').value = user.email;
+    document.getElementById('role').value = user.role;
+    userModal.classList.remove('hidden'); // Affiche la modale pour l'édition
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l’utilisateur :', error);
+  }
+}
+
+
+userForm.addEventListener('submit', async (e) => {
+  e.preventDefault(); // Empêche le rechargement de la page
+
+  const nom = document.getElementById('name').value;
+  const prenoms = document.getElementById('prenoms').value;
+  const email = document.getElementById('email').value;
+  const role = document.getElementById('role').value;
+  const password = 'password123'; // Mot de passe par défaut ou généré
+
+  try {
+    if (editingUserId) {
+      // Modifier un utilisateur existant
+      const response = await fetch(`http://localhost:8080/api/admin/update/${editingUserId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nom, prenoms, email, role }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
+    } else {
+      // Créer un nouvel utilisateur
+      const response = await fetch('http://localhost:8080/api/admin/create', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nom, prenoms,password, email, role, isActive: true }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
+    }
+
+    // Recharge les utilisateurs après modification ou création
+    await renderUsers();
+    await renderPendingUsers();
+
+    // Ferme la modale
+    userModal.classList.add('hidden');
+  } catch (error) {
+    console.error('Erreur lors de l’enregistrement de l’utilisateur :', error);
+  }
+});
+
+// Gestionnaire pour le bouton "Annuler"
+cancelBtn.addEventListener('click', () => {
+  userModal.classList.add('hidden'); // Cache la modale
+});
+
+
 
 // Initialiser les utilisateurs
 (async function initialize() {

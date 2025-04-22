@@ -38,7 +38,7 @@ const getProjectById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const project = await Project.findById(id).populate('responsable_id', 'nom email');
+    const project = await Project.findById(id).populate('responsable_id', 'nom email').populate('membres', 'nom prenoms email');
     if (!project) {
       return res.status(404).json({ message: 'Projet non trouvé' });
     }

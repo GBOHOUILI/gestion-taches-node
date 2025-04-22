@@ -15,7 +15,8 @@ console.log("MONGODB_URI:", process.env.MONGODB_URI); // pour debug
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  
 })
 .then(() => console.log('✅ MongoDB connecté !'))
 .catch(err => console.error('❌ Erreur MongoDB :', err));
