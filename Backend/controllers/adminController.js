@@ -13,7 +13,7 @@ const findUserById = async (userId) => {
 };
 
 // Fonction pour envoyer une notification
-const sendNotification = (message, icon) => {
+const sendNotification = (req,message, icon) => {
   const io = req.app.get('io');
   io.emit('newNotification', {
     message,
@@ -37,7 +37,7 @@ const createUser = async (req, res) => {
     const newUser = await User.create({ nom, prenoms, email, password: hashedPassword, role, isActive: true });
     await sendUserCredentials({ email, nom }, password || 'defaultPassword123');
 
-    sendNotification(`Nouvel utilisateur créé : ${newUser.nom} ${newUser.prenoms}`, 'check-circle');
+    sendNotification(req,`Nouvel utilisateur créé : ${newUser.nom} ${newUser.prenoms}`, 'check-circle');
 
     res.status(201).json({ message: "Utilisateur créé avec succès.", user: newUser });
   } catch (err) {
@@ -62,7 +62,7 @@ const updateUser = async (req, res) => {
 
     await user.save();
 
-    sendNotification(`Utilisateur modifié : ${user.nom} ${user.prenoms}`, 'edit');
+    sendNotification(req,`Utilisateur modifié : ${user.nom} ${user.prenoms}`, 'edit');
 
     res.status(200).json({ message: "Utilisateur mis à jour avec succès.", user });
   } catch (err) {
@@ -80,7 +80,7 @@ const deleteUser = async (req, res) => {
 
     await user.deleteOne();
 
-    sendNotification(`Utilisateur supprimé : ${user.nom} ${user.prenoms}`, 'trash');
+    sendNotification(req,`Utilisateur supprimé : ${user.nom} ${user.prenoms}`, 'trash');
 
     res.status(200).json({ message: "Utilisateur supprimé avec succès." });
   } catch (err) {
@@ -104,7 +104,7 @@ const changeRole = async (req, res) => {
     user.role = role;
     await user.save();
 
-    sendNotification(`Rôle modifié pour : ${user.nom} ${user.prenoms} (${role})`, 'user-tag');
+    sendNotification(req,`Rôle modifié pour : ${user.nom} ${user.prenoms} (${role})`, 'user-tag');
 
     res.status(200).json({ message: `Rôle de l'utilisateur modifié en ${role} avec succès.`, user });
   } catch (err) {
@@ -127,7 +127,7 @@ const activateUser = async (req, res) => {
     user.isActive = true;
     await user.save();
 
-    sendNotification(`Utilisateur activé : ${user.nom} ${user.prenoms}`, 'check-circle');
+    sendNotification(req,`Utilisateur activé : ${user.nom} ${user.prenoms}`, 'check-circle');
 
     res.status(200).json({ message: "Utilisateur activé avec succès." });
   } catch (err) {
@@ -152,6 +152,10 @@ const getUserById = async (req, res) => {
   const { userId } = req.params;
 
   try {
+    const findUserById = (userId) => {
+  if (!ObjectId.isValid(userId)) throw new Error('ID utilisateur invalide.');
+  return User.findById(userId); // On retourne la requête, pas un `await`
+};
     const user = await findUserById(userId).select('-password');
     res.status(200).json(user);
   } catch (err) {

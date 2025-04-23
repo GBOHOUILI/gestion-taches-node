@@ -71,17 +71,17 @@ document.getElementById('loginForm').addEventListener('submit', async function (
       throw new Error(errorDetails.error || 'Échec de la connexion.');
     }
 
-    const user = await response.json();
-    localStorage.setItem('token', user.user.token); // Stockage du token
-    console.log('Réponse utilisateur :', user);
+  const {token,user:userData} = await response.json();
+   localStorage.setItem('token', token); // Stockage du token
+    console.log('Réponse utilisateur :', userData);
 
     // Vérification du statut de l'utilisateur
-    if (user.user.isActive === true) {
-      if (user.user.role === 'admin') {
+    if (userData.isActive === true) {
+      if (userData.role === 'admin') {
         window.location.href = "admin.html";
-      } else if (user.user.role === 'membre') {
+      } else if (userData.role === 'membre') {
         window.location.href = "member.html";
-      } else if (user.user.role === 'responsable') {
+      } else if (userData.role === 'responsable') {
         window.location.href = "manager.html";
       } else {
         throw new Error("Rôle inconnu");

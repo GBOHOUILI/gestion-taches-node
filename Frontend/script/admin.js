@@ -18,8 +18,34 @@ createUserBtn.addEventListener('click', () => {
   userForm.reset(); // Réinitialise le formulaire
   userModal.classList.remove('hidden'); // Affiche la modale
 });
+// async function renewToken() {
+//   try {
+//     const response = await fetch('http://localhost:8080/api/users/renew-token', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({ token: localStorage.getItem('token') }),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('Impossible de renouveler le jeton.');
+//     }
+
+//     const data = await response.json();
+//     console.log('Réponse du serveur pour le renouvellement du jeton :', data);
+//     localStorage.setItem('token', data.token); // Stockez le nouveau jeton
+//     console.log('Jeton renouvelé avec succès.');
+//     return data.token;
+//   } catch (error) {
+//     console.error('Erreur lors du renouvellement du jeton :', error);
+//     localStorage.removeItem('token'); // Supprimez le jeton expiré
+//     window.location.href = '/login.html'; // Redirigez vers la page de connexion
+//   }
+// }
+
+
 async function renewToken() {
   try {
+    console.log('Tentative de renouvellement du jeton...');
     const response = await fetch('http://localhost:8080/api/users/renew-token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -27,10 +53,18 @@ async function renewToken() {
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Erreur HTTP lors du renouvellement du jeton : ${response.status}`, errorText);
       throw new Error('Impossible de renouveler le jeton.');
     }
 
     const data = await response.json();
+    console.log('Réponse du serveur pour le renouvellement du jeton :', data);
+
+    if (!data.token) {
+      throw new Error('Aucun jeton renvoyé par le serveur.');
+    }
+
     localStorage.setItem('token', data.token); // Stockez le nouveau jeton
     console.log('Jeton renouvelé avec succès.');
     return data.token;
@@ -43,16 +77,53 @@ async function renewToken() {
 
 // Fonction pour charger les utilisateurs depuis le backend
 
+// async function fetchUsers() {
+//   try {
+//     const response = await fetch('http://localhost:8080/api/admin/users', {
+//       headers: {
+//         'Authorization': `Bearer ${localStorage.getItem('token')}`,
+//         'Content-Type': 'application/json',
+//       },
+      
+//     });
+//     console.log('Jeton utilisé :', localStorage.getItem('token'));
+
+//     if (!response.ok) {
+//       const errorText = await response.text();
+//   console.error(`Erreur HTTP : ${response.status}`, errorText);
+//       if (response.status === 401) {
+
+//         console.warn('Jeton expiré ou invalide. Tentative de renouvellement...');
+//         await renewToken(); // Renouvelle le jeton
+//         return fetchUsers(); // Relance la requête avec le nouveau jeton
+//       }
+//       throw new Error(`Erreur HTTP : ${response.status}`);
+//     }
+
+//     const data = await response.json();
+//     console.log('Utilisateurs récupérés :', data);
+//     return data.users || []; // Retourne uniquement le tableau des utilisateurs
+//   } catch (error) {
+//     console.error('Erreur lors de la récupération des utilisateurs :', error);
+//     return []; // Retourne un tableau vide en cas d'erreur
+//   }
+// }
+
 async function fetchUsers() {
   try {
+    console.log('Jeton utilisé :', localStorage.getItem('token'));
     const response = await fetch('http://localhost:8080/api/admin/users', {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
       },
     });
+    console.log('Réponse du serveur :', response); // Affiche la réponse du serveur
+    console.log('  le izi Jeton utilisé :', localStorage.getItem('token')); // Affiche le jeton utilisé
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Erreur HTTP : ${response.status}`, errorText);
       if (response.status === 401) {
         console.warn('Jeton expiré ou invalide. Tentative de renouvellement...');
         await renewToken(); // Renouvelle le jeton
@@ -69,6 +140,7 @@ async function fetchUsers() {
     return []; // Retourne un tableau vide en cas d'erreur
   }
 }
+
 
 // Fonction pour afficher les utilisateurs actifs
 async function renderUsers() {
@@ -249,26 +321,30 @@ userForm.addEventListener('submit', async (e) => {
       }
     }
 
-    // Recharge les utilisateurs après modification ou création
+    userModal.classList.add('hidden');
     await renderUsers();
     await renderPendingUsers();
-
-    // Ferme la modale
-    userModal.classList.add('hidden');
   } catch (error) {
     console.error('Erreur lors de l’enregistrement de l’utilisateur :', error);
   }
 });
+    // Recharge les utilisateurs après modification ou création
+    
+
+    // Ferme la modale
+   
 
 // Gestionnaire pour le bouton "Annuler"
 cancelBtn.addEventListener('click', () => {
   userModal.classList.add('hidden'); // Cache la modale
+  editingUserId = null; // Réinitialise l'ID d'édition
 });
+
+window.onload = async () => {
+   await renderPendingUsers();
+  await renderUsers();
+};
 
 
 
 // Initialiser les utilisateurs
-(async function initialize() {
-  await renderPendingUsers();
-  await renderUsers();
-})();

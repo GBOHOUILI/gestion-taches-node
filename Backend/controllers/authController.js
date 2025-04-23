@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { sendAdminNotification, sendUserNotification } = require('./emailcontroller');
+const { generateToken } = require('../middlewares/authMiddleware'); // Assurez-vous que le chemin est correct
 
 
 const renewToken = (req, res) => {
@@ -110,15 +111,12 @@ const signIn = async (req, res) => {
      }
 
     // Créer un token et le définir dans un cookie
-    const token = createTokenAndSetCookie(res, { userId: user._id, role: user.role });
+   const token = await generateToken(user);
 
-    res.status(200).json({
-      message: 'Connexion réussie.',
-      user: { id: user._id, nom: user.nom, prenoms: user.prenoms, email: user.email, role: user.role, token: token ,isActive: user.isActive },
-    });
+    res.status(200).json({ token ,user: { id: user._id, nom: user.nom, prenoms: user.prenoms, email: user.email, role: user.role ,isActive:user.isActive} });
   } catch (error) {
     console.error('Erreur lors de la connexion :', error);
-    res.status(500).json({ message: 'Une erreur est survenue lors de la connexion.' });
+    res.status(500).json({ message: 'Erreur serveur.' });
   }
 };
 

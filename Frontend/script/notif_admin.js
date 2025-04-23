@@ -39,7 +39,7 @@ socket.on('newNotification', (notification) => {
 async function fetchNotifications() {
   try {
     const token = localStorage.getItem('token'); // Récupérer le token d'authentification
-    const response = await fetch('http://localhost:8080/api/notifications', {
+    const response = await fetch('http://localhost:8080/api/admin/notification', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`, // Inclure le token dans l'en-tête
@@ -64,7 +64,7 @@ async function fetchNotifications() {
 async function notifyBackend(action, user) {
     try {
       console.log('Envoi de la notification au backend...', { action, user });
-    const response = await fetch('http://localhost:8080/api/notifications', {
+    const response = await fetch('http://localhost:8080/api/admin/notification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

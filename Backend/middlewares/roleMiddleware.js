@@ -1,5 +1,6 @@
 const roleMiddleware = (requiredRole) => {
   return (req, res, next) => {
+    console.log('Utilisateur authentifié dans roleMiddleware :', req.user);
     // Vérifie si l'utilisateur est authentifié
     if (!req.user) {
       console.error('Accès refusé : utilisateur non authentifié.');

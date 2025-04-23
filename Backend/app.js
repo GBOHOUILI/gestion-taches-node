@@ -11,7 +11,7 @@ const app = express();
 const server = http.createServer(app); // Créez un serveur HTTP
 const io = socketIo(server, {
   cors: {
-    origin: 'http://127.0.0.1:5500', // Origine de votre frontend
+    origin: 'http://127.0.0.1:5501', // Origine de votre frontend
     methods: ['GET', 'POST'],
   },
 });

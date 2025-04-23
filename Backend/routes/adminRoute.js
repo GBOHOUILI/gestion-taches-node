@@ -16,7 +16,7 @@ const {
     createNotification, 
     deleteNotification 
 } = require('../controllers/notificationController');
-const { authMiddleware } = require('../middlewares/authMiddleware');
+const { authMiddleware ,generateToken} = require('../middlewares/authMiddleware');
 const roleMiddleware = require('../middlewares/roleMiddleware');
 
 // Vérification des imports
@@ -57,7 +57,7 @@ router.put('/update/:userId', adminAuth, updateUser);
 router.delete('/delete/:userId', adminAuth, deleteUser);
 router.put('/role/:userId', adminAuth, changeRole);
 router.patch('/activate/:userId', adminAuth, activateUser);
-router.get('/users', adminAuth, getAllUsers);
+router.get('/users', authMiddleware,roleMiddleware('admin'), getAllUsers);
 router.get('/users/search', adminAuth, searchUsers);
 router.get('/users/:userId', adminAuth, getUserById);
 

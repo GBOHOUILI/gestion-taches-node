@@ -40,6 +40,9 @@ router.post('/:taskId/comment', authMiddleware, addComment);
 // Récupérer les commentaires d'une tâche
 router.get('/:taskId/comments', authMiddleware, getComments);
 
+router.post('/renew-token', authMiddleware, renewToken);
+// Vérification des imports
+
 
 
 module.exports = router;
