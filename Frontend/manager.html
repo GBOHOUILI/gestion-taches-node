@@ -1,713 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow - Dashboard</title>
-    <style>
-        /* Variables et reset */
-        :root {
-            --primary: #6a11cb;
-            --primary-light: #8a3df5;
-            --primary-dark: #4c0d8f;
-            --secondary: #2575fc;
-            --secondary-light: #3d86ff;
-            --secondary-dark: #1a5ad7;
-            --accent: #f83600;
-            --accent-light: #ff5a2c;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --info: #17a2b8;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --gray: #6c757d;
-            --border: #dee2e6;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fb;
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-        
-        /* Layout */
-        .dashboard {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-            color: white;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            z-index: 100;
-            position: fixed;
-            height: 100%;
-        }
-        
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            padding: 1.5rem;
-            background: rgba(0, 0, 0, 0.1);
-        }
-        
-        .sidebar-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-        }
-        
-        .sidebar-logo-icon {
-            width: 32px;
-            height: 32px;
-            margin-right: 10px;
-            background: white;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-weight: bold;
-        }
-        
-        .sidebar-nav {
-            padding: 1rem 0;
-        }
-        
-        .sidebar-nav-item {
-            padding: 0.8rem 1.5rem;
-            display: flex;
-            align-items: center;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: var(--transition);
-            position: relative;
-        }
-        
-        .sidebar-nav-item:hover, .sidebar-nav-item.active {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .sidebar-nav-item.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: white;
-        }
-        
-        .sidebar-nav-icon {
-            margin-right: 10px;
-            width: 20px;
-            display: inline-flex;
-            justify-content: center;
-        }
-        
-        .sidebar-divider {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            margin: 1rem 0;
-        }
-        
-        .sidebar-user {
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.1);
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--secondary-light);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        
-        .user-info {
-            overflow: hidden;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .user-role {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-        
-        /* Main Content */
-        .main {
-            flex: 1;
-            margin-left: 250px;
-            padding: 2rem;
-            transition: var(--transition);
-        }
-        
-        /* Top Bar */
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .topbar-actions {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .search-box {
-            position: relative;
-        }
-        
-        .search-input {
-            padding: 0.5rem 1rem 0.5rem 2.5rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            background: white;
-            font-size: 0.9rem;
-            width: 250px;
-            transition: var(--transition);
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
-            width: 300px;
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 0.8rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-        
-        .notification-btn, .profile-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 4px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-        
-        .notification-btn:hover, .profile-btn:hover {
-            background: var(--light);
-        }
-        
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            font-size: 1.5rem;
-        }
-        
-        .stat-icon.projects {
-            background: rgba(106, 17, 203, 0.1);
-            color: var(--primary);
-        }
-        
-        .stat-icon.tasks {
-            background: rgba(37, 117, 252, 0.1);
-            color: var(--secondary);
-        }
-        
-        .stat-icon.completed {
-            background: rgba(40, 167, 69, 0.1);
-            color: var(--success);
-        }
-        
-        .stat-icon.pending {
-            background: rgba(255, 193, 7, 0.1);
-            color: var(--warning);
-        }
-        
-        .stat-info {
-            flex: 1;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-        
-        .stat-label {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
-        }
-        
-        /* Tasks */
-        .tasks-card, .projects-card, .team-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        
-        .tasks-filters {
-            display: flex;
-            gap: 0.8rem;
-            padding: 1rem 1.5rem;
-            background: #fafafa;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .filter-select {
-            padding: 0.4rem 0.8rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            background: white;
-        }
-        
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--primary-light);
-        }
-        
-        .tasks-list {
-            padding: 0.5rem 0;
-        }
-        
-        .task-item {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            transition: var(--transition);
-            animation: fadeIn 0.3s ease;
-            cursor: pointer;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .task-item:hover {
-            background: #f9f9f9;
-        }
-        
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-        
-        .task-title {
-            font-weight: 600;
-        }
-        
-        .task-status {
-            padding: 0.3rem 0.7rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        
-        .status-inprogress {
-            background: rgba(23, 162, 184, 0.1);
-            color: var(--info);
-        }
-        
-        .status-completed {
-            background: rgba(40, 167, 69, 0.1);
-            color: var(--success);
-        }
-        
-        .status-pending {
-            background: rgba(255, 193, 7, 0.1);
-            color: var(--warning);
-        }
-        
-        .status-blocked {
-            background: rgba(220, 53, 69, 0.1);
-            color: var(--danger);
-        }
-        
-        .task-details {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-        
-        .task-project {
-            display: flex;
-            align-items: center;
-        }
-        
-        .project-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 6px;
-        }
-        
-        .project-web {
-            background: var(--primary);
-        }
-        
-        .project-mobile {
-            background: var(--accent);
-        }
-        
-        .project-design {
-            background: var(--success);
-        }
-        
-        .task-assignee {
-            display: flex;
-            align-items: center;
-        }
-        
-        .assignee-avatar {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--secondary-light);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: bold;
-            margin-right: 6px;
-        }
-        
-        .task-date {
-            color: var(--gray);
-        }
-        
-        .tasks-pagination {
-            display: flex;
-            justify-content: center;
-            padding: 1rem;
-            gap: 0.3rem;
-        }
-        
-        .page-item {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-        
-        .page-item.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        .page-item:hover:not(.active) {
-            background: var(--light);
-        }
-        
-        /* Projects */
-        .projects-list {
-            padding: 1rem 1.5rem;
-        }
-        
-        .project-item {
-            margin-bottom: 1.5rem;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .project-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .project-name {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .progress-bar {
-            height: 6px;
-            background: #e9ecef;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        
-        .progress-value {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.6s ease;
-        }
-        
-        .progress-web {
-            background: var(--primary);
-        }
-        
-        .progress-mobile {
-            background: var(--accent);
-        }
-        
-        .progress-design {
-            background: var(--success);
-        }
-        
-        /* Team */
-        .team-list {
-            padding: 1rem 1.5rem;
-        }
-        
-        .team-member {
-            display: flex;
-            align-items: center;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--border);
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .team-member:last-child {
-            border-bottom: none;
-        }
-        
-        .member-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--secondary-light);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 12px;
-        }
-        
-        .member-info {
-            flex: 1;
-        }
-        
-        .member-name {
-            font-weight: 600;
-        }
-        
-        .member-role {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-        
-        .member-tasks {
-            font-size: 0.85rem;
-            background: #e9ecef;
-            color: var(--dark);
-            padding: 0.3rem 0.6rem;
-            border-radius: 12px;
-        }
-        
-        /* Create Task Button */
-        .create-task-btn {
-            position: fixed;
-            right: 2rem;
-            bottom: 2rem;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            z-index: 100;
-        }
-        
-        .create-task-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.6);
-        }
-        
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar {
-                width: 70px;
-            }
-            
-            .sidebar .sidebar-logo-text,
-            .sidebar .sidebar-nav-text,
-            .sidebar .user-info {
-                display: none;
-            }
-            
-            .sidebar-nav-item {
-                justify-content: center;
-                padding: 1rem;
-            }
-            
-            .sidebar-nav-icon {
-                margin-right: 0;
-                font-size: 1.2rem;
-            }
-            
-            .main {
-                margin-left: 70px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .topbar {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .topbar-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .search-input {
-                width: 100%;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .main {
-                padding: 1rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .task-header {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .task-details {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
-    </style>
+    <title>TaskZel - Dashboard</title>
+    <link rel="stylesheet" href="styles/manager.css">
 </head>
+
 <body>
     <div class="dashboard">
         <!-- Sidebar -->
@@ -715,10 +15,10 @@
             <div class="sidebar-header">
                 <div class="sidebar-logo">
                     <div class="sidebar-logo-icon">TZ</div>
-                    <span class="sidebar-logo-text">TaskZel</span>
+                    <span class="sidebar-logo-text">Taskzel</span>
                 </div>
             </div>
-            
+
             <div class="sidebar-nav">
                 <a href="#" class="sidebar-nav-item active">
                     <span class="sidebar-nav-text">Tableau de bord</span>
@@ -732,9 +32,9 @@
                 <a href="#" class="sidebar-nav-item">
                     <span class="sidebar-nav-text">Équipes</span>
                 </a>
-                
+
                 <div class="sidebar-divider"></div>
-                
+
                 <a href="#" class="sidebar-nav-item">
                     <span class="sidebar-nav-text">Paramètres</span>
                 </a>
@@ -742,49 +42,49 @@
                     <span class="sidebar-nav-text">Aide</span>
                 </a>
             </div>
-            
+
             <div class="sidebar-user">
-                <div class="user-avatar">LP</div>
+                <div class="user-avatar">E-M</div>
                 <div class="user-info">
-                    <div class="user-name">Laurent Perrier</div>
+                    <div class="user-name">Eldo-Moréo</div>
                     <div class="user-role">Responsable Projet</div>
                 </div>
             </div>
         </aside>
-        
+
         <!-- Main Content -->
         <main class="main">
             <!-- Top Bar -->
             <div class="topbar">
                 <h1 class="page-title">Tableau de bord</h1>
-                
+
                 <div class="topbar-actions">
                     <div class="search-box">
                         <input type="text" class="search-input" placeholder="Rechercher...">
-                        <span class="search-icon">Rechercher</span>
+                        <span class="search-icon">🔍</span>
                     </div>
-                    
-                    <div class="notification-btn">Notifications</div>
-                    <div class="profile-btn">Profile</div>
+
+                    <div class="notification-btn">🔔</div>
+                    <div class="profile-btn">👤</div>
                 </div>
             </div>
-            
+
             <!-- Stats Cards -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-info">
-                        <div class="stat-value">8</div>
+                        <div id="total-project" class="stat-value">8</div>
                         <div class="stat-label">Projets actifs</div>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="stat-value">42</div>
                         <div class="stat-label">Tâches assignées</div>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon completed">✓</div>
                     <div class="stat-info">
@@ -792,7 +92,7 @@
                         <div class="stat-label">Tâches terminées</div>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="stat-value">12</div>
@@ -800,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Content Grid -->
             <div class="content-grid">
                 <!-- Tasks -->
@@ -809,7 +109,7 @@
                         <h2 class="card-title">Tâches récentes</h2>
                         <button class="btn-primary">Voir tout</button>
                     </div>
-                    
+
                     <div class="tasks-filters">
                         <select class="filter-select">
                             <option>Tous les projets</option>
@@ -817,7 +117,7 @@
                             <option>App Mobile</option>
                             <option>Design</option>
                         </select>
-                        
+
                         <select class="filter-select">
                             <option>Tous les statuts</option>
                             <option>En cours</option>
@@ -825,7 +125,7 @@
                             <option>En attente</option>
                             <option>Bloquée</option>
                         </select>
-                        
+
                         <select class="filter-select">
                             <option>Toutes les priorités</option>
                             <option>Haute</option>
@@ -833,7 +133,7 @@
                             <option>Basse</option>
                         </select>
                     </div>
-                    
+
                     <div class="tasks-list">
                         <div class="task-item">
                             <div class="task-header">
@@ -852,7 +152,7 @@
                                 <div class="task-date">Échéance: 16 Avril</div>
                             </div>
                         </div>
-                        
+
                         <div class="task-item">
                             <div class="task-header">
                                 <div class="task-title">Implémentation authentification JWT</div>
@@ -870,7 +170,7 @@
                                 <div class="task-date">Terminée le 14 Avril</div>
                             </div>
                         </div>
-                        
+
                         <div class="task-item">
                             <div class="task-header">
                                 <div class="task-title">Conception des modèles MongoDB</div>
@@ -888,7 +188,7 @@
                                 <div class="task-date">Échéance: 15 Avril</div>
                             </div>
                         </div>
-                        
+
                         <div class="task-item">
                             <div class="task-header">
                                 <div class="task-title">Interface de gestion des utilisateurs</div>
@@ -906,7 +206,7 @@
                                 <div class="task-date">Échéance: 17 Avril</div>
                             </div>
                         </div>
-                        
+
                         <div class="task-item">
                             <div class="task-header">
                                 <div class="task-title">Développement API REST</div>
@@ -925,7 +225,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="tasks-pagination">
                         <div class="page-item">◀</div>
                         <div class="page-item active">1</div>
@@ -934,15 +234,15 @@
                         <div class="page-item">▶</div>
                     </div>
                 </div>
-                
+
                 <div class="projects-team-container">
                     <!-- Projects -->
                     <div class="projects-card">
                         <div class="card-header">
                             <h2 class="card-title">Projets en cours</h2>
-                            <button class="btn-primary">Ajouter</button>
+                            <button id="add-project" class="btn-primary">Ajouter</button>
                         </div>
-                        
+
                         <div class="projects-list">
                             <div class="project-item">
                                 <div class="project-name">
@@ -957,7 +257,7 @@
                                     <div class="progress-value progress-web" style="width: 65%;"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="project-item">
                                 <div class="project-name">
                                     <span class="project-indicator project-mobile"></span>
@@ -971,7 +271,130 @@
                                     <div class="progress-value progress-mobile" style="width: 40%;"></div>
                                 </div>
                             </div>
-                            <script src="script/manager.js"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                </body>
-                                    
+
+                            <div class="modal-backdrop" id="createProjectModal">
+                                <div class="modal">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Créer un nouveau projet</h3>
+                                        <button class="modal-close" id="closeProjectModal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="createProjectForm">
+                                            <div class="form-group">
+                                                <label for="projectTitle" class="form-label">Titre du projet*</label>
+                                                <input type="text" id="projectTitle" name="titre" class="form-control"
+                                                    placeholder="Entrez le titre du projet" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectDescription" class="form-label">Description*</label>
+                                                <textarea id="projectDescription" name="description"
+                                                    class="form-control" rows="3"
+                                                    placeholder="Décrivez le projet en détail" required></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectStartDate" class="form-label">Date de début</label>
+                                                <input type="date" id="projectStartDate" name="date_debut"
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectEndDate" class="form-label">Date de fin
+                                                    prévue</label>
+                                                <input type="date" id="projectEndDate" name="date_fin"
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="projectResponsible" class="form-label">Responsable du
+                                                    projet*</label>
+                                                <select id="projectResponsible" name="responsable_id"
+                                                    class="form-select" required>
+                                                    <option value="">Sélectionner un responsable</option>
+                                                    <!-- Ces options seraient normalement générées depuis la base de données -->
+                                                    <option value="user_id_1" selected>Laurent Perrier (vous)</option>
+                                                    <option value="user_id_2">Thomas Martin</option>
+                                                    <option value="user_id_3">Sophie Laurent</option>
+                                                    <option value="user_id_4">Julie Dubois</option>
+                                                    <option value="user_id_5">Marc Petit</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label">Membres du projet</label>
+                                                <div class="members-selection">
+                                                    <!-- Ces membres seraient normalement générés depuis la base de données -->
+                                                    <div class="member-item">
+                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
+                                                            value="user_id_1" id="member1">
+                                                        <label for="member1" class="member-info">
+                                                            <div class="member-avatar">LP</div>
+                                                            Laurent Perrier
+                                                        </label>
+                                                    </div>
+                                                    <div class="member-item">
+                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
+                                                            value="user_id_2" id="member2">
+                                                        <label for="member2" class="member-info">
+                                                            <div class="member-avatar">TM</div>
+                                                            Thomas Martin
+                                                        </label>
+                                                    </div>
+                                                    <div class="member-item">
+                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
+                                                            value="user_id_3" id="member3">
+                                                        <label for="member3" class="member-info">
+                                                            <div class="member-avatar">SL</div>
+                                                            Sophie Laurent
+                                                        </label>
+                                                    </div>
+                                                    <div class="member-item">
+                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
+                                                            value="user_id_4" id="member4">
+                                                        <label for="member4" class="member-info">
+                                                            <div class="member-avatar">JD</div>
+                                                            Julie Dubois
+                                                        </label>
+                                                    </div>
+                                                    <div class="member-item">
+                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
+                                                            value="user_id_5" id="member5">
+                                                        <label for="member5" class="member-info">
+                                                            <div class="member-avatar">MP</div>
+                                                            Marc Petit
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label">Couleur du projet</label>
+                                                <div class="color-options">
+                                                    <div class="color-option color-web selected" data-color="web"></div>
+                                                    <div class="color-option color-mobile" data-color="mobile"></div>
+                                                    <div class="color-option color-design" data-color="design"></div>
+                                                    <div class="color-option color-other" data-color="other"></div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" id="cancelProjectBtn">Annuler</button>
+                                        <button class="btn btn-primary" id="saveProjectBtn">Créer le projet</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </main>
+                    </div>
+                
+
+                        <script src="script/manager.js"></script>
+
+</body>

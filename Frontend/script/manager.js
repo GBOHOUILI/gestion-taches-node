@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080/api/responsable'; // URL de l'API backend
+
+
+const API_BASE_URL = 'http://localhost:8080/api/responsable';
 
 // Fonction pour régénérer le token
 async function renewToken() {
@@ -14,13 +16,13 @@ async function renewToken() {
     }
 
     const data = await response.json();
-    localStorage.setItem('token', data.token); // Stockez le nouveau jeton
+    localStorage.setItem('token', data.token);
     console.log('Jeton renouvelé avec succès.');
     return data.token;
   } catch (error) {
     console.error('Erreur lors du renouvellement du jeton :', error);
-    localStorage.removeItem('token'); // Supprimez le jeton expiré
-    // window.location.href = '/login.html'; // Redirigez vers la page de connexion
+    localStorage.removeItem('token');
+    window.location.href = '/index.html';
   }
 }
 
@@ -128,10 +130,17 @@ async function renderProjects() {
   try {
     const projects = await fetchProjects();
     const projectsList = document.querySelector('.projects-list');
+    const totalProjectsElement = document.querySelector('#total-project');
     if (!projects) {
       console.error('Aucun projet trouvé ou erreur lors de la récupération.');
       projectsList.innerHTML = '<div class="no-projects">Aucun projet trouvé.</div>';
+      if (totalProjectsElement) totalProjectsElement.textContent = 'Total projets : 0';
       return;
+    }
+
+    // Affichage du total
+    if (totalProjectsElement) {
+      totalProjectsElement.textContent = `${projects.length}`;
     }
 
     projectsList.innerHTML = '';
@@ -157,18 +166,52 @@ async function renderProjects() {
     console.error('Erreur lors de la récupération des projets :', error);
     const projectsList = document.querySelector('.projects-list');
     projectsList.innerHTML = '<div class="error">Erreur lors du chargement des projets. Veuillez réessayer plus tard.</div>';
+    
+    const totalProjectsElement = document.querySelector('.total-projects');
+    if (totalProjectsElement) totalProjectsElement.textContent = 'Total projets : 0';
   }
 }
 
-// Initialisation
-document.addEventListener('DOMContentLoaded', () => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    console.error('Jeton non trouvé. Redirection vers la page de connexion.');
-    window.location.href = '/login.html';
+function setupModal() {
+  const addProject = document.getElementById("add-project");
+  const createProjectModal = document.getElementById("createProjectModal");
+  const closeBtn = document.getElementById("closeProjectModal");
+  const cancelBtn = document.getElementById("cancelProjectBtn");
+
+  if (!addProject || !createProjectModal || !closeBtn) {
+    console.warn("Un ou plusieurs éléments manquent.");
     return;
   }
 
+  addProject.addEventListener("click", (event) => {
+    event.preventDefault(); 
+    createProjectModal.style.display = "flex";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    createProjectModal.style.display = "none";
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    createProjectModal.style.display = "none";
+  });
+}
+
+
+
+// Initialisation
+document.addEventListener('DOMContentLoaded', (e) => {
+  e.preventDefault();
+
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.error('Jeton non trouvé. Redirection vers la page de connexion.');
+    window.location.href = '/index.html';
+    return;
+  }
+  setupModal();
   renderTasks();
   renderProjects();
+
 });
+
