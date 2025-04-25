@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskZel - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles/manager.css">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </head>
 
 <body>
@@ -23,7 +26,7 @@
                 <a href="#" class="sidebar-nav-item active">
                     <span class="sidebar-nav-text">Tableau de bord</span>
                 </a>
-                <a href="#" class="sidebar-nav-item">
+                <a href="manager_project.html" class="sidebar-nav-item">
                     <span class="sidebar-nav-text">Projets</span>
                 </a>
                 <a href="#" class="sidebar-nav-item">
@@ -44,10 +47,10 @@
             </div>
 
             <div class="sidebar-user">
-                <div class="user-avatar">E-M</div>
+                <div class="user-avatar"><img src="assets/images/profile.png" alt=""></div>
                 <div class="user-info">
-                    <div class="user-name">Eldo-Moréo</div>
-                    <div class="user-role">Responsable Projet</div>
+                    <div id="userName" class="user-name">Eldo-Moréo</div>
+                    <div id="userRole" class="user-role">Responsable Projet</div>
                 </div>
             </div>
         </aside>
@@ -240,7 +243,7 @@
                     <div class="projects-card">
                         <div class="card-header">
                             <h2 class="card-title">Projets en cours</h2>
-                            <button id="add-project" class="btn-primary">Ajouter</button>
+                            <button id="add-project" class="btn-primary">Voir tout</button>
                         </div>
 
                         <div class="projects-list">
@@ -272,125 +275,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tasks-pagination">
+                            <div class="page-item">◀</div>
+                            <div class="page-item active">1</div>
+                            <div class="page-item">2</div>
+                            <div class="page-item">3</div>
+                            <div class="page-item">▶</div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-                            <div class="modal-backdrop" id="createProjectModal">
-                                <div class="modal">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title">Créer un nouveau projet</h3>
-                                        <button class="modal-close" id="closeProjectModal">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="createProjectForm">
-                                            <div class="form-group">
-                                                <label for="projectTitle" class="form-label">Titre du projet*</label>
-                                                <input type="text" id="projectTitle" name="titre" class="form-control"
-                                                    placeholder="Entrez le titre du projet" required>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="projectDescription" class="form-label">Description*</label>
-                                                <textarea id="projectDescription" name="description"
-                                                    class="form-control" rows="3"
-                                                    placeholder="Décrivez le projet en détail" required></textarea>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="projectStartDate" class="form-label">Date de début</label>
-                                                <input type="date" id="projectStartDate" name="date_debut"
-                                                    class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="projectEndDate" class="form-label">Date de fin
-                                                    prévue</label>
-                                                <input type="date" id="projectEndDate" name="date_fin"
-                                                    class="form-control">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="projectResponsible" class="form-label">Responsable du
-                                                    projet*</label>
-                                                <select id="projectResponsible" name="responsable_id"
-                                                    class="form-select" required>
-                                                    <option value="">Sélectionner un responsable</option>
-                                                    <!-- Ces options seraient normalement générées depuis la base de données -->
-                                                    <option value="user_id_1" selected>Laurent Perrier (vous)</option>
-                                                    <option value="user_id_2">Thomas Martin</option>
-                                                    <option value="user_id_3">Sophie Laurent</option>
-                                                    <option value="user_id_4">Julie Dubois</option>
-                                                    <option value="user_id_5">Marc Petit</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="form-label">Membres du projet</label>
-                                                <div class="members-selection">
-                                                    <!-- Ces membres seraient normalement générés depuis la base de données -->
-                                                    <div class="member-item">
-                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
-                                                            value="user_id_1" id="member1">
-                                                        <label for="member1" class="member-info">
-                                                            <div class="member-avatar">LP</div>
-                                                            Laurent Perrier
-                                                        </label>
-                                                    </div>
-                                                    <div class="member-item">
-                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
-                                                            value="user_id_2" id="member2">
-                                                        <label for="member2" class="member-info">
-                                                            <div class="member-avatar">TM</div>
-                                                            Thomas Martin
-                                                        </label>
-                                                    </div>
-                                                    <div class="member-item">
-                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
-                                                            value="user_id_3" id="member3">
-                                                        <label for="member3" class="member-info">
-                                                            <div class="member-avatar">SL</div>
-                                                            Sophie Laurent
-                                                        </label>
-                                                    </div>
-                                                    <div class="member-item">
-                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
-                                                            value="user_id_4" id="member4">
-                                                        <label for="member4" class="member-info">
-                                                            <div class="member-avatar">JD</div>
-                                                            Julie Dubois
-                                                        </label>
-                                                    </div>
-                                                    <div class="member-item">
-                                                        <input type="checkbox" class="member-checkbox" name="membres[]"
-                                                            value="user_id_5" id="member5">
-                                                        <label for="member5" class="member-info">
-                                                            <div class="member-avatar">MP</div>
-                                                            Marc Petit
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="form-label">Couleur du projet</label>
-                                                <div class="color-options">
-                                                    <div class="color-option color-web selected" data-color="web"></div>
-                                                    <div class="color-option color-mobile" data-color="mobile"></div>
-                                                    <div class="color-option color-design" data-color="design"></div>
-                                                    <div class="color-option color-other" data-color="other"></div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" id="cancelProjectBtn">Annuler</button>
-                                        <button class="btn btn-primary" id="saveProjectBtn">Créer le projet</button>
-                                    </div>
-                                </div>
-                            </div>
-
                         </main>
                     </div>
                 
@@ -398,3 +292,4 @@
                         <script src="script/manager.js"></script>
 
 </body>
+</html>

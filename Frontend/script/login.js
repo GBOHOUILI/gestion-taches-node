@@ -73,7 +73,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
   const {token,user:userData} = await response.json();
    localStorage.setItem('token', token); // Stockage du token
-    console.log('Réponse utilisateur :', userData);
+   localStorage.setItem('user', JSON.stringify(userData)); // Stockage des données de l'utilisateur
 
     // Vérification du statut de l'utilisateur
     if (userData.isActive === true) {
@@ -102,20 +102,6 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   }
 });
 
-// Fonction d'authentification simulée
-// async function authenticateUser() {
-//   // Remplacez cette simulation par une requête API réelle
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       // Exemple de réponse utilisateur
-//       const user = {
-//         isActive: true, // Changez à false pour tester un utilisateur inactif
-//         role: 'admin' // Changez à 'user' pour tester un utilisateur normal
-//       };
-//       resolve(user);
-//     }, 2000);
-//   });
-// }
   });
   
   // Fonction d'initialisation du background Three.js

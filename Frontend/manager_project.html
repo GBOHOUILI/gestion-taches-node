@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskZel - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles/manager.css">
+    <link rel="stylesheet" href="styles/manager_project.css">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="sidebar-logo-icon">TZ</div>
+                    <span class="sidebar-logo-text">Taskzel</span>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <a href="manager.html" class="sidebar-nav-item">
+                    <span class="sidebar-nav-text">Tableau de bord</span>
+                </a>
+                <a href="#" class="sidebar-nav-item active" >
+                    <span class="sidebar-nav-text">Projets</span>
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <span class="sidebar-nav-text">Tâches</span>
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <span class="sidebar-nav-text">Équipes</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+
+                <a href="#" class="sidebar-nav-item">
+                    <span class="sidebar-nav-text">Paramètres</span>
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    <span class="sidebar-nav-text">Aide</span>
+                </a>
+            </div>
+
+            <div class="sidebar-user">
+                <div class="user-avatar">E-M</div>
+                <div class="user-info">
+                    <div id="userName" class="user-name">Eldo-Moréo</div>
+                    <div id="userRole" class="user-role">Responsable Projet</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+
+
+        <div id="projects-section">
+            <div class="section-header">
+                <h2>Tous les projets</h2>
+                <div class="filters">
+                    <div class="search-container">
+                        <input type="text" id="search-projects" placeholder="Rechercher un projet...">
+                        <i class="fa fa-search search-icon"></i>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Tous</button>
+                        <button class="filter-btn" data-filter="active">En cours</button>
+                        <button class="filter-btn" data-filter="completed">Terminés</button>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="projects-grid">
+                        
+                <!-- Ajouter un nouveau projet (carte) -->
+                <div class="project-card add-project">
+                    <div class="add-project-content">
+                        <button id="add_project">
+                            <div class="add-icon">
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </button>
+                        <h3>Nouveau projet</h3>
+                        <p>Cliquez pour ajouter un nouveau projet</p>
+                    </div>
+                </div>
+                <!-- Projet 1 -->
+                <div class="project-card" data-status="completed">
+                    <div class="card-header">
+                        <span class="status-badge completed">Terminé</span>
+                        <div class="dropdown">
+                            <button class="dropdown-btn"><i class="fa fa-ellipsis-v"></i></button>
+                            <div class="dropdown-content">
+                                <a href="#"><i class="fa fa-star"></i> Favoris</a>
+                                <a href="#"><i class="fa fa-bell"></i> Notifications</a>
+                                <a href="#"><i class="fa fa-archive"></i> Archiver</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>Site web commercial</h3>
+                        <p class="card-description">Refonte du site web commercial avec nouvelles fonctionnalités.</p>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <i class="fa fa-user"></i>
+                                <span>Dubois</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fa fa-calendar"></i>
+                                <span>15 Jan - 30 Mar 2025</span>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span>Progression</span>
+                                <span class="progress-percentage">100%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="members-preview">
+                            <div class="avatar" title="Member 3">M3</div>
+                            <div class="avatar" title="Member 4">M4</div>
+                            <div class="avatar more">+2</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-view"><i class="fa fa-eye"></i> Voir</button>
+                        <button class="btn-edit"><i class="fa fa-edit"></i> Modifier</button>
+                        <button class="btn-delete"><i class="fa fa-trash"></i> Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-backdrop" id="createProjectModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Créer un nouveau projet</h3>
+                    <button class="modal-close" id="closeProjectModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="createProjectForm">
+                        <div class="form-group">
+                            <label for="projectTitle" class="form-label">Titre du projet*</label>
+                            <input type="text" id="projectTitle" name="titre" class="form-control"
+                                placeholder="Entrez le titre du projet" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectDescription" class="form-label">Description*</label>
+                            <textarea id="projectDescription" name="description"
+                                class="form-control" rows="3"
+                                placeholder="Décrivez le projet en détail" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectStartDate" class="form-label">Date de début</label>
+                            <input type="date" id="projectStartDate" name="date_debut"
+                                class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectEndDate" class="form-label">Date de fin
+                                prévue</label>
+                            <input type="date" id="projectEndDate" name="date_fin"
+                                class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projectResponsible" class="form-label">Responsable du
+                                projet*</label>
+                            <select id="projectResponsible" name="responsable_id"
+                                class="form-select" required>
+                                <option id="responsable_id" value="user_id">Sélectionner un responsable</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Membres du projet</label>
+                            <select id="membersSelect" multiple>
+
+                              </select>
+                              
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Couleur du projet</label>
+                            <div class="color-options">
+                                <div class="color-option color-web selected" data-color="web"></div>
+                                <div class="color-option color-mobile" data-color="mobile"></div>
+                                <div class="color-option color-design" data-color="design"></div>
+                                <div class="color-option color-other" data-color="other"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancelProjectBtn">Annuler</button>
+                    <button class="btn btn-primary" id="saveProjectBtn">Créer le projet</button>
+                </div>
+            </div>
+        </div>                       
+                        <div id="main-content">
+                            <div id="project-details" class="project-card">
+                                <div class="project-header">
+                                    <h1>Plateforme de gestion RH</h1>
+                                    <span class="status-badge">En cours</span>
+                                </div>
+                                
+                                <div class="project-info">
+                                    <div class="info-item">
+                                        <div class="info-icon"><i class="fa fa-info-circle"></i></div>
+                                        <div class="info-content">
+                                            <p class="info-label">Description:</p>
+                                            <p class="info-value">Un projet pour gérer les ressources humaines de l'entreprise.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-icon"><i class="fa fa-user"></i></div>
+                                        <div class="info-content">
+                                            <p class="info-label">Responsable:</p>
+                                            <p class="info-value">GBOHOUILI</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="info-item">
+                                        <div class="info-icon"><i class="fa fa-calendar"></i></div>
+                                        <div class="info-content">
+                                            <p class="info-label">Période:</p>
+                                            <p class="info-value">Du 01 Mai 2025 au 01 Août 2025</p>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="project-members">
+                                    <h3>Membres de l'équipe:</h3>
+                                    <div class="members-list">
+                                        <div class="member-chip">
+                                            <div class="member-avatar">M1</div>
+                                            <span>Member 1</span>
+                                        </div>
+                                        <div class="member-chip">
+                                            <div class="member-avatar">M2</div>
+                                            <span>Member 2</span>
+                                        </div>
+                                        <div class="member-chip add-member">
+                                            <div class="member-avatar">+</div>
+                                            <span>Ajouter</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button id="create-task-btn" class="btn-primary">Créer une tâche</button>
+                            </div>
+                        </div>
+                    </div>
+                
+
+                        <script src="script/manager.js"></script>
+
+</body>
+
+</html>
