@@ -111,7 +111,7 @@
 
 ## ✅ Expérience Utilisateur (UX)
 - Transitions en CSS (`transition: all 0.3s`)
-- Feedback visuel : couleurs, messages de confirma tion/erreur
+- Feedback visuel : couleurs, messages de confirmation/erreur
 - Scroll doux vers le haut (`window.scrollTo`)
 - Accessibilité : navigation clavier + couleurs contrastées
 

@@ -202,7 +202,7 @@ async function renderProjects() {
     
       const start = startDate.toLocaleDateString('en-GB', options);
       const end = endDate.toLocaleDateString('en-GB', options);
-      const year = endDate.getFullYear(); // On prend l'année de fin
+      const year = endDate.getFullYear();
     
       return `${start} - ${end} ${year}`;
     }
@@ -285,7 +285,7 @@ async function renderProjects() {
                           <div class="members-preview">
                               <div class="avatar" title="Member 1">M1</div>
                               <div class="avatar" title="Member 2">M2</div>
-                              <div class="avatar more"></div>
+                              <div class="avatar more">${projet.membres.length}</div>
                           </div>
                       </div>
                       <div class="card-actions">
